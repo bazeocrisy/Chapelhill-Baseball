@@ -593,7 +593,7 @@
         '<div class="footer__grid">' +
           '<div class="footer__brand">' + brandMark() +
             "<h4>" + esc(id.programName) + "</h4>" +
-            "<p>" + esc(SITE.boosterClub.body).slice(0, 150) + "…</p></div>" +
+            "<p>" + esc(SITE.footerBlurb || "Parents supporting Chapel Hill Panther baseball.") + "</p></div>" +
           "<div><h4>Pages</h4><ul>" +
             pages.map(function (p) {
               return '<li><a href="' + esc(p.href) + '">' + esc(p.label) + "</a></li>";
@@ -873,6 +873,147 @@
                      "</a>";
             }).join("") +
           "</div>" +
+        "</div>" +
+      "</section>"
+    );
+  }
+
+  /* ======================================================================
+     BOOSTER CLUB PAGE BUILDERS
+     ====================================================================== */
+
+  function buildBoosterHero() {
+    var h = SITE.boosterPage.hero;
+    return el(
+      '<section class="hero hero--page">' +
+        '<div class="hero__scrim" aria-hidden="true"></div>' +
+        '<div class="wrap hero__inner">' +
+          '<div class="hero__content">' +
+            '<p class="hero__eyebrow">' + esc(h.eyebrow) + "</p>" +
+            "<h1>" + esc(h.headline) + "</h1>" +
+            '<p class="hero__intro">' + esc(h.intro) + "</p>" +
+            '<div class="hero__actions">' +
+              '<a class="btn btn--primary btn--lg" href="' + esc(h.primaryCta.href) + '">' +
+                esc(h.primaryCta.label) + "</a>" +
+              '<a class="btn btn--ghost btn--lg" href="' + esc(h.secondaryCta.href) + '">' +
+                esc(h.secondaryCta.label) + "</a>" +
+            "</div>" +
+          "</div>" +
+        "</div>" +
+      "</section>"
+    );
+  }
+
+  function buildBoosterMission() {
+    var m = SITE.boosterPage.mission;
+    return el(
+      '<section class="section">' +
+        '<div class="wrap wrap--narrow">' +
+          '<div class="section__head section__head--center">' +
+            '<span class="eyebrow">' + esc(m.eyebrow) + "</span>" +
+            "<h2>" + esc(m.heading) + "</h2>" +
+          "</div>" +
+          '<p class="mission__body">' + esc(m.body) + "</p>" +
+          '<ul class="ticks ticks--dark">' +
+            m.points.map(function (p) {
+              return "<li>" + icon("check", "icon icon--tick") + "<span>" + esc(p) + "</span></li>";
+            }).join("") +
+          "</ul>" +
+        "</div>" +
+      "</section>"
+    );
+  }
+
+  // Membership tiers — reuses the .pkg component from the sponsors page.
+  function buildBoosterMembership() {
+    var mb = SITE.boosterPage.membership;
+    return el(
+      '<section class="section section--wash" id="membership">' +
+        '<div class="wrap">' +
+          '<div class="section__head section__head--center">' +
+            '<span class="eyebrow">' + esc(mb.eyebrow) + "</span>" +
+            "<h2>" + esc(mb.heading) + "</h2><p>" + esc(mb.intro) + "</p>" +
+          "</div>" +
+          '<div class="pkgnote">' + esc(mb.demoNote) + "</div>" +
+          '<div class="pkgs pkgs--3">' +
+            mb.tiers.map(function (t) {
+              return '<div class="pkg' + (t.featured ? " pkg--featured" : "") + '">' +
+                       (t.badge ? '<span class="pkg__badge">' + esc(t.badge) + "</span>" : "") +
+                       '<div class="pkg__head">' +
+                         "<h3>" + esc(t.name) + "</h3>" +
+                         '<span class="pkg__amount">' + esc(t.amount) + "</span>" +
+                       "</div>" +
+                       '<ul class="pkg__benefits">' +
+                         t.perks.map(function (p) {
+                           return "<li>" + icon("check", "icon icon--tick") + "<span>" + esc(p) + "</span></li>";
+                         }).join("") +
+                       "</ul>" +
+                       '<a class="btn ' + (t.featured ? "btn--primary" : "btn--outline") +
+                         ' pkg__cta" href="' + esc(mb.cta.href) + '">' + esc(mb.cta.label) + "</a>" +
+                     "</div>";
+            }).join("") +
+          "</div>" +
+        "</div>" +
+      "</section>"
+    );
+  }
+
+  function buildBoosterFund() {
+    var f = SITE.boosterPage.fund;
+    return el(
+      '<section class="section">' +
+        '<div class="wrap">' +
+          '<div class="section__head section__head--center">' +
+            '<span class="eyebrow">' + esc(f.eyebrow) + "</span>" +
+            "<h2>" + esc(f.heading) + "</h2>" +
+          "</div>" +
+          '<div class="boostcols">' +
+            "<div>" +
+              '<h3 class="boostcols__h">' + esc(f.fundsHeading) + "</h3>" +
+              '<ul class="ticks ticks--dark">' +
+                f.funds.map(function (i) {
+                  return "<li>" + icon("check", "icon icon--tick") + "<span>" + esc(i) + "</span></li>";
+                }).join("") +
+              "</ul>" +
+            "</div>" +
+            "<div>" +
+              '<h3 class="boostcols__h">' + esc(f.boardHeading) + "</h3>" +
+              '<p class="boardnote">' + esc(f.boardNote) + "</p>" +
+              '<ul class="board">' +
+                f.roles.map(function (r) {
+                  return '<li class="boardrole">' +
+                           "<strong>" + esc(r.role) + "</strong>" +
+                           "<span>" + esc(r.desc) + "</span>" +
+                         "</li>";
+                }).join("") +
+              "</ul>" +
+            "</div>" +
+          "</div>" +
+        "</div>" +
+      "</section>"
+    );
+  }
+
+  function buildBoosterVolunteer() {
+    var v = SITE.boosterPage.volunteer;
+    return el(
+      '<section class="section section--wash" id="volunteer">' +
+        '<div class="wrap">' +
+          '<div class="section__head section__head--center">' +
+            '<span class="eyebrow">' + esc(v.eyebrow) + "</span>" +
+            "<h2>" + esc(v.heading) + "</h2><p>" + esc(v.body) + "</p>" +
+          "</div>" +
+          '<ul class="volcta__roles volcta__roles--center">' +
+            v.roles.map(function (r) { return "<li>" + esc(r) + "</li>"; }).join("") +
+          "</ul>" +
+          '<figure class="spot spot--card">' +
+            '<span class="spot__icon">' + icon("star") + "</span>" +
+            "<h3>" + esc(v.spotlight.heading) + "</h3>" +
+            "<p>" + esc(v.spotlight.body) + "</p>" +
+          "</figure>" +
+          (v.note ? '<p class="boostnote">' + esc(v.note) + "</p>" : "") +
+          '<p class="start__cta"><a class="btn btn--primary btn--lg" href="' + esc(v.cta.href) + '">' +
+            esc(v.cta.label) + "</a></p>" +
         "</div>" +
       "</section>"
     );
@@ -1516,6 +1657,16 @@
       //   Three of the four pointed at pages that don't exist yet, and the
       //   header nav already routes to all of them. A parent who came here
       //   came for one document.
+    ],
+
+    // Modeled on real booster pages: mission → membership → fund/board →
+    // volunteer. Player-development content lives on an about page, not here.
+    "booster-club": [
+      buildBoosterHero,       // 1. Built by parents, for parents
+      buildBoosterMission,    // 2. What the Booster Club does
+      buildBoosterMembership, // 3. Membership tiers (marked demo)
+      buildBoosterFund,       // 4. What we fund + the board (roles only)
+      buildBoosterVolunteer,  // 5. Volunteer — #volunteer anchor lives here
     ],
 
     // Brief's order, minus the fake form (routed to Contact instead).

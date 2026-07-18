@@ -1401,8 +1401,10 @@ a.card:hover .card__more::after { margin-left: 3px; }
 .pkgs {
   display: grid; gap: var(--s-5);
   grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr));
-  align-items: start;
+  align-items: stretch;
 }
+/* Booster membership: exactly 3 tiers. */
+.pkgs--3 { grid-template-columns: repeat(auto-fit, minmax(min(260px, 100%), 1fr)); }
 .pkg {
   position: relative;
   background: var(--white);
@@ -1507,4 +1509,46 @@ a.card:hover .card__more::after { margin-left: 3px; }
   .volcta__actions { width: 100%; }
   .volcta__actions .btn { width: 100%; }
   .pkgnote { padding: var(--s-3) var(--s-4); }
+}
+
+/* --------------------------------------------------------------------------
+   38. BOOSTER CLUB PAGE
+   Reuses .pkg (membership tiers), .ticks, .spot. New: .boostcols (fund+board),
+   .board (role list).
+   -------------------------------------------------------------------------- */
+.mission__body {
+  max-width: 60ch; margin: 0 auto var(--s-5);
+  text-align: center; font-size: 1.08rem; line-height: 1.75; color: var(--grey-600);
+}
+.boostcols { display: grid; gap: var(--s-7); grid-template-columns: 1fr; }
+@media (min-width: 820px) { .boostcols { grid-template-columns: 1fr 1fr; gap: var(--s-8); } }
+.boostcols__h {
+  font-size: 1.15rem; color: var(--purple-deep);
+  padding-bottom: var(--s-3); margin-bottom: var(--s-4);
+  border-bottom: 2px solid var(--purple-lift);
+}
+.boardnote { font-size: .9rem; color: var(--grey-500); margin-bottom: var(--s-4); line-height: 1.6; }
+.board { display: grid; gap: var(--s-3); }
+.boardrole {
+  display: flex; flex-direction: column; gap: 1px;
+  padding-bottom: var(--s-3); border-bottom: 1px solid var(--grey-100);
+}
+.boardrole:last-child { border-bottom: 0; padding-bottom: 0; }
+.boardrole strong {
+  font-family: var(--font-display); text-transform: uppercase;
+  font-size: .95rem; letter-spacing: .04em; color: var(--purple-deep);
+}
+.boardrole span { font-size: .88rem; color: var(--grey-500); }
+
+.volcta__roles--center { justify-content: center; margin-bottom: var(--s-6); }
+.spot--card {
+  background: var(--white); border: 1px solid var(--grey-200);
+  border-top: 4px solid var(--accent);
+  border-radius: var(--radius-lg); padding: var(--s-6);
+  box-shadow: var(--shadow-sm);
+  max-width: 46rem; margin-inline: auto;
+}
+.boostnote {
+  max-width: 60ch; margin: var(--s-5) auto 0; text-align: center;
+  font-size: .86rem; color: var(--grey-500); font-style: italic; line-height: 1.6;
 }

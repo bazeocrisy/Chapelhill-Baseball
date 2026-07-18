@@ -1071,6 +1071,123 @@ const SITE = {
   },
 
   /* ------------------------------------------------------------------------
+     BOOSTER CLUB PAGE
+     ------------------------------------------------------------------------
+     Modeled on real HS baseball booster pages (Emerson Mavericks, Heritage,
+     Norman Tigers). The pattern they all share: mission → membership tiers →
+     what we fund / board → volunteer → contact. Player-development and alumni
+     content does NOT go here on real sites; that's a coaches'/about page.
+
+     The mission and volunteer voice is lifted from the existing
+     SITE.boosterClub and SITE.spotlight — that's the program's real voice,
+     keep it.
+
+     !! MEMBERSHIP TIERS ARE MARKED DEMO ($50/$100/$150). Same treatment as the
+        sponsorship tiers: a buy-in pitch, clearly labeled sample data, that
+        nobody pays off a mock. The `demoNote` says so on the page. These are
+        PARENT memberships, distinct from the business SPONSORSHIP on
+        sponsors.html.
+
+     !! BOARD ROLES ONLY — NO NAMES. Real booster sites list real officer
+        names (President, Treasurer, etc). We list the ROLES without names,
+        same rule as everywhere else: no invented person on a real title.
+
+     The #volunteer anchor is required — nav and several CTAs link to
+     booster-club.html#volunteer.
+  ---------------------------------------------------------------------------*/
+  boosterPage: {
+    hero: {
+      eyebrow:  "The Booster Club",
+      headline: "Built by parents, for parents",
+      intro:    "We buy the equipment, drag the field, feed the team, and put on the banquet, so the coaches can coach. Here's who we are, how to join, and how to help.",
+      primaryCta:   { label: "How to help", href: "#volunteer" },
+      secondaryCta: { label: "Contact the board", href: "contact.html#booster" },
+    },
+
+    // The program's real voice. Do not rewrite this into something glossier.
+    mission: {
+      eyebrow: "Who we are",
+      heading: "What the Booster Club does",
+      body:    "We're parents. We buy the equipment, drag the field, feed the team, and put on the banquet, so the coaches can spend their time coaching. We don't pick the lineup and we have no say in who makes the roster. What we do is make sure a boy who wants to play gets to play.",
+      points: [
+        "If the fee is a problem, tell us. It stays between us.",
+        "Every meeting is open to every baseball family.",
+        "We're a volunteer group. Nobody here is paid.",
+      ],
+    },
+
+    // Membership tiers — the heart of a booster page. MARKED DEMO.
+    membership: {
+      eyebrow: "Join the Booster Club",
+      heading: "Become a member",
+      intro:   "Membership is how families back the program beyond the season fee. It funds the things the school budget doesn't: field projects, banners, the banquet, and help for players who need it.",
+      demoNote: "Demonstration data: membership levels, amounts, and perks shown here are sample content for the proposed website. Final levels must be set and approved by the Booster Club board before launch.",
+      tiers: [
+        { name: "Panther", amount: "$50", featured: false,
+          perks: [
+            "Booster Club voting rights",
+            "Supports team needs and the assistance fund",
+          ] },
+        { name: "Dugout", amount: "$100", featured: true, badge: "Most popular",
+          perks: [
+            "Booster Club voting rights",
+            "Two Panther baseball t-shirts",
+            "Supports team needs and the assistance fund",
+          ] },
+        { name: "Grand Slam", amount: "$150", featured: false,
+          perks: [
+            "Booster Club voting rights",
+            "Two Panther baseball t-shirts",
+            "A Panther baseball cap",
+            "Name in the season program",
+          ] },
+      ],
+      cta: { label: "Ask about membership", href: "contact.html#booster" },
+    },
+
+    // What the money does + the board, as roles.
+    fund: {
+      eyebrow: "Where it goes",
+      heading: "What we fund, and who runs it",
+      fundsHeading: "What membership and fundraising pay for",
+      funds: [
+        "Equipment the school budget doesn't cover",
+        "Field and facility projects",
+        "Team meals on road trips",
+        "Senior banners and the end-of-season banquet",
+        "The assistance fund for families who need it",
+        "Umpire fees and game-day costs",
+      ],
+      boardHeading: "The board",
+      boardNote: "A volunteer board of parents, elected each year. Roles below; names are announced at the first meeting.",
+      // ROLES ONLY. Never add invented names here.
+      roles: [
+        { role: "President", desc: "Runs the board and the meetings." },
+        { role: "Vice President", desc: "Fundraising and events." },
+        { role: "Treasurer", desc: "The money, the budget, the assistance fund." },
+        { role: "Secretary", desc: "Minutes, membership, communication." },
+        { role: "Concessions", desc: "The stand, the schedule, the food handlers." },
+        { role: "Field & facilities", desc: "Workdays, upkeep, projects." },
+      ],
+    },
+
+    // Volunteer — the #volunteer anchor lives here. Uses the real spotlight.
+    volunteer: {
+      eyebrow: "Lend a hand",
+      heading: "One shift. That's the whole ask.",
+      body:    "The concession stand doesn't run itself and the infield doesn't drag itself. Take one shift this season and you've done your part. Pick whatever fits.",
+      roles: ["Concessions", "Field work", "Team meals", "Fundraising", "Gate", "Scorebook"],
+      // The real volunteer story, kept from the homepage spotlight.
+      spotlight: {
+        heading: "Eighteen families and a June Saturday",
+        body:    "They spent it hauling infield mix, packing the mound, and painting both dugouts. It was ninety degrees by ten in the morning. The field has not looked this good in years. There will be another workday before the season, and we would be glad to see you there.",
+      },
+      note: "Concessions volunteers need a food handlers card. It's a short online course and the board can point you to it.",
+      cta: { label: "Email the Booster Club", href: "contact.html#booster" },
+    },
+  },
+
+  /* ------------------------------------------------------------------------
      15. OFFICIAL SCHOOL LINKS
          Verified from chhs.dcssga.org. All open in a new tab and are labeled
          "Official" so nobody mistakes this site for the district's.
@@ -1097,6 +1214,10 @@ const SITE = {
     },
   },
 
+  // Short line under the program name in the footer. A real sentence, not a
+  // sliced-off paragraph. Keep it short — it sits in a narrow column.
+  footerBlurb: "Parents supporting Chapel Hill Panther baseball. The equipment, the field, the banquet, and the kids.",
+
   /* ------------------------------------------------------------------------
      16. FOOTER DISCLAIMER — required. Do not remove.
   ---------------------------------------------------------------------------*/
@@ -1122,7 +1243,7 @@ const SITE = {
   ---------------------------------------------------------------------------*/
   revision: {
     show: true,
-    rev:  "v1.2",
+    rev:  "v1.3",
     date: "July 18, 2026",
     note: "Homepage draft",
   },

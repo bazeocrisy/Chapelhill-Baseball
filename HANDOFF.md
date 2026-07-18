@@ -56,6 +56,25 @@ before pushing — actually, bump it yourself as part of the build — and to
 **Ctrl+F5** after. The footer should show the new number. If it doesn't, he's
 on cache.
 
+### !! THE COPY TRAP THAT COST A WHOLE SESSION (July 18)
+
+Copying files by opening the zip preview and dragging them OUT does NOT reliably
+overwrite — Windows silently keeps old versions. `main.js` stayed the old
+441-line version through four pushes while everything looked fine. The site
+showed the old homepage on every URL because the old main.js only knew
+SECTION_ORDER, not PAGES.
+
+**The fix that works:** right-click zip -> Extract All -> copy from the
+EXTRACTED folder. Then PROVE it landed before committing:
+
+```powershell
+(Get-Content "C:\Chapel Hill Baseball\js\main.js").Count
+```
+
+Must read ~1790. If it says 441, the copy didn't take. Never push until that
+number is right. Also: a fresh `git init` drops the upstream link, so the first
+push after re-init needs `git push --set-upstream origin main`.
+
 ### Note on the copy-over step
 
 The unzip + copy lines are already in the block above. **Never `Remove-Item`
@@ -366,7 +385,7 @@ Don't add "we reply within 48 hours" until somebody commits to it.
 `buildOfficial` now takes an optional override so the district links can carry
 page-appropriate framing. Called bare it behaves exactly as before.
 
-**Still 404:** `booster-club.html` — the last page.
+**All six pages built. Zero 404s anywhere in the site.**
 
 ---
 
@@ -435,6 +454,34 @@ stays as an in-page `#sponsors` anchor (it's a preview of the on-page block).
 Also fixed this session: parents linked `physical-forms.html#also` but that
 section had no id. Added `id="also"`. Full link audit passes except
 booster-club (unbuilt).
+
+---
+
+## Booster Club page (v1.3) — SITE IS COMPLETE
+
+Modeled on real HS booster pages (Emerson Mavericks, Heritage, Norman). Five
+sections: mission -> membership tiers -> what we fund + board -> volunteer.
+
+**Membership tiers are MARKED DEMO** ($50 Panther / $100 Dugout / $150 Grand
+Slam). Parent buy-in, distinct from business sponsorship on sponsors.html. Same
+demo treatment as the sponsor tiers.
+
+**Board is ROLES ONLY, no names** — real booster sites list real officer names;
+we don't invent people on real titles.
+
+**Player-development / values / alumni content did NOT go here** — real booster
+pages don't carry it; it belongs on a future About page. Those builders
+(`buildValues`, `buildDevelopment`) still exist, still commented out.
+
+`#volunteer` and `#membership` anchors live on this page.
+
+### Three fixes shipped same build (v1.3):
+- Footer `&#...` bug: was slicing escaped text mid-entity. Now uses
+  `SITE.footerBlurb`, a real short line, not a sliced paragraph.
+- `&amp;amp;` double-encoding in sample-sponsor-6 and -7 SVGs (Tanner, Midway).
+  Now renders "&" correctly.
+- Sponsor/membership card heights: `.pkgs` now `align-items: stretch` so cards
+  in a row match the tallest.
 
 ---
 
