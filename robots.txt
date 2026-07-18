@@ -1,0 +1,4 @@
+# DRAFT SITE — not for public indexing.
+# DELETE THIS FILE when the site is approved and ready to go live.
+User-agent: *
+Disallow: /
