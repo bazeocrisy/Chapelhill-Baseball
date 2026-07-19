@@ -246,7 +246,38 @@ p + p { margin-top: var(--s-4); }
   background: var(--purple-dark);
   overflow: hidden;
 }
-.hero__media { position: absolute; inset: 0; background-position: center center; background-size: contain; background-repeat: no-repeat; background-color: var(--purple-dark); }
+/* Hero photo. The source (1440x810, 16:9) is much taller than the desktop
+   hero box (~3:1), so neither `cover` (over-zooms to the home-plate dirt and
+   cuts off heads) nor `contain` (letterboxes with dead purple bars) works with
+   one setting. Below ~1024px the original 16:9 photo is used and positioned to
+   keep the catcher and players; at desktop widths a dedicated ~21:9 crop
+   (panthers-field-wide.jpg, cropped from the top so no heads are lost) fills
+   the wide box with `cover` and only light positioning.
+   Position is set per breakpoint — never one crop for every screen. */
+.hero__media {
+  position: absolute; inset: 0;
+  background-repeat: no-repeat;
+  background-color: var(--purple-dark);
+  background-image: var(--hero-img);
+  background-size: cover;
+  background-position: 50% 22%;   /* mobile/base: keep heads and catcher in view */
+}
+/* Tablet: original photo, biased up-left toward catcher + players. */
+@media (min-width: 641px) {
+  .hero__media { background-position: 40% 20%; }
+}
+/* Desktop: swap to the wide panoramic crop, anchored to the top edge so the
+   standing players' heads (which sit near the top of the frame) are never cut.
+   Right side stays over grass/trees, leaving a quiet zone for the panel. */
+@media (min-width: 1024px) {
+  .hero__media {
+    background-image: url("../assets/img/panthers-field-wide.jpg");
+    background-position: 50% 0%;
+  }
+}
+@media (min-width: 1440px) {
+  .hero__media { background-position: 50% 6%; }
+}
 .hero__scrim {
   position: absolute; inset: 0;
   /* directional — darker toward the text side (left), lighter over the photo */
@@ -1426,7 +1457,7 @@ a.card:hover .card__more::after { margin-left: 3px; }
 .hero__panel {
   background: rgba(255,255,255,.07); border: 1px solid rgba(255,255,255,.15);
   border-radius: var(--radius-lg); padding: var(--s-5);
-  max-width: 300px; margin-left: auto; margin-top: var(--s-2);
+  max-width: 300px; margin-left: auto; margin-top: 0;
   backdrop-filter: blur(2px);
 }
 .hero__panel-eyebrow {
