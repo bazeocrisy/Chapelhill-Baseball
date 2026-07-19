@@ -175,11 +175,8 @@
         (h.imageNote ? '<span class="hero__imgnote">' + esc(h.imageNote) + "</span>" : "") +
       "</section>"
     );
-    // Expose the base image as a CSS variable rather than an inline
-    // background-image. Inline styles beat stylesheet !important, which would
-    // block the desktop wide-crop swap in style.css; a variable lets the CSS
-    // media queries choose the right image per breakpoint.
-    s.querySelector(".hero__media").style.setProperty("--hero-img", 'url("' + h.image + '")');
+    // Hero image is owned entirely by CSS (.hero__media) so it is full-bleed
+    // and independent of JS. Nothing to set here.
     return s;
   }
 

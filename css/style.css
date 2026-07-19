@@ -258,8 +258,11 @@ p + p { margin-top: var(--s-4); }
   position: absolute; inset: 0;
   background-repeat: no-repeat;
   background-color: var(--purple-dark);
-  background-image: var(--hero-img);
-  background-size: cover;
+  /* Image set explicitly here (not via a JS variable) so the full-bleed photo
+     never depends on JS running or on a matching deploy — a CSS-only load can't
+     regress to a letterboxed/blank state. */
+  background-image: url("../assets/img/panthers-field.jpg");
+  background-size: cover;   /* fills full width; never `contain` (that letterboxes with purple bars) */
   background-position: 50% 22%;   /* mobile/base: keep heads and catcher in view */
 }
 /* Tablet: original photo, biased up-left toward catcher + players. */
