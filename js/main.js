@@ -126,15 +126,33 @@
     );
   }
 
+  // Right-side panel: real sponsor impact, not decorative field art. Reuses
+  // SITE.sponsors.impact so there's no new content field to maintain.
+  function heroSponsorPanel() {
+    var imp = SITE.sponsors && SITE.sponsors.impact;
+    if (!imp) { return ""; }
+    return (
+      '<div class="hero__panel">' +
+        '<span class="hero__panel-eyebrow">Sponsor Impact</span>' +
+        '<h3>' + esc(imp.heading) + '</h3>' +
+        '<ul class="hero__panel-list">' +
+          imp.items.map(function (i) {
+            return '<li>' + icon("check", "icon icon--tick") + '<span>' + esc(i.thing) + '</span></li>';
+          }).join("") +
+        '</ul>' +
+        '<a class="hero__panel-cta" href="#sponsors">See Our Sponsors</a>' +
+      '</div>'
+    );
+  }
+
   function buildHero() {
     var h = SITE.hero;
     var s = el(
       '<section class="hero">' +
         '<div class="hero__media" role="img" aria-label="' + esc(h.imageAlt) + '"></div>' +
         '<div class="hero__scrim" aria-hidden="true"></div>' +
-        '<div class="wrap hero__inner">' +
+        '<div class="wrap hero__inner hero__inner--split">' +
           '<div class="hero__content">' +
-            (SITE.identity.logoSrc ? brandMark("hero") : "") +
             '<p class="hero__eyebrow">' + esc(h.eyebrow) + "</p>" +
             "<h1>" + esc(h.headline) + "</h1>" +
             '<p class="hero__tagline">' + esc(h.tagline) + "</p>" +
@@ -152,6 +170,7 @@
                 esc(h.alert.label) + "</span>" + esc(h.alert.text) + "</p>"
               : "") +
           "</div>" +
+          heroSponsorPanel() +
         "</div>" +
         (h.imageNote ? '<span class="hero__imgnote">' + esc(h.imageNote) + "</span>" : "") +
       "</section>"
@@ -179,25 +198,73 @@
   // Sponsor logo strip under the hero. Only the top two tiers appear —
   // cramming every sponsor in shrinks them all to illegibility.
   var STRIP_TIERS = 2;
+  var STRIP_ACCENTS = ["purple", "accent", "purple-lift"];
   function buildSponsorStrip() {
     var all = [];
     SITE.sponsors.levels.slice(0, STRIP_TIERS).forEach(function (lvl) {
       lvl.items.forEach(function (it) { if (it.logo) { all.push(it); } });
     });
     if (!all.length) { return null; }
+    var tagline = (SITE.sponsorStrip && SITE.sponsorStrip.tagline) || "";
     return el(
       '<section class="sponsorstrip" aria-label="Our sponsors">' +
-        '<div class="wrap sponsorstrip__inner">' +
-          '<span class="sponsorstrip__label">Proudly supported by</span>' +
-          '<div class="sponsorstrip__logos">' +
-            all.map(function (it) {
-              return '<a href="#sponsors" title="' + esc(it.name) + '">' +
+        '<div class="wrap">' +
+          '<div class="sponsorstrip__head">' +
+            '<div>' +
+              '<span class="sponsorstrip__label">Our sponsors</span>' +
+              (tagline ? '<h2 class="sponsorstrip__tagline">' + esc(tagline) + '</h2>' : '') +
+            '</div>' +
+            '<a class="sponsorstrip__all" href="#sponsors">See All Sponsors</a>' +
+          '</div>' +
+          '<div class="sponsorstrip__cardgrid">' +
+            all.map(function (it, n) {
+              return '<a class="sponsorstrip__card sponsorstrip__card--' + STRIP_ACCENTS[n % 3] + '" href="#sponsors" title="' + esc(it.name) + '">' +
                      '<img src="' + esc(it.logo) + '" alt="' + esc(it.name) + '"></a>';
             }).join("") +
           "</div>" +
-          '<a class="sponsorstrip__all" href="#sponsors">See all sponsors</a>' +
         "</div>" +
       "</section>"
+    );
+  }
+
+  // PARENT HUB — season dates + quick links unified into one at-a-glance card,
+  // so parents get real-time information from a single place instead of
+  // hunting across the page. Reuses SITE.seasonStrip and SITE.quickLinks.
+  function buildParentHub() {
+    var dates = SITE.seasonStrip || [];
+    var q = SITE.quickLinks;
+    return el(
+      '<section class="section section--wash">' +
+        '<div class="wrap">' +
+          '<div class="parenthub">' +
+            '<div class="parenthub__head">' +
+              '<div>' +
+                '<span class="eyebrow">Parent Hub</span>' +
+                '<h2>Everything you need, in one place</h2>' +
+              '</div>' +
+              '<span class="parenthub__badge"><span class="parenthub__dot"></span>Updated ' + esc(SITE.revision ? SITE.revision.date : "") + '</span>' +
+            '</div>' +
+            '<div class="parenthub__dates">' +
+              dates.map(function (i) {
+                return '<div class="parenthub__date">' +
+                         '<div class="parenthub__date-label">' + esc(i.label) + '</div>' +
+                         '<div class="parenthub__date-value">' + esc(i.value) + '</div>' +
+                         (i.detail ? '<div class="parenthub__date-detail">' + esc(i.detail) + '</div>' : '') +
+                       '</div>';
+              }).join("") +
+            '</div>' +
+            '<div class="grid grid--3">' +
+              q.items.map(function (i) {
+                return '<a class="card" href="' + esc(i.href) + '"' + extAttrs(i) + '>' +
+                         '<span class="card__icon">' + icon(i.icon) + '</span>' +
+                         '<h3>' + esc(i.title) + extTag(i) + '</h3>' +
+                         '<p>' + esc(i.body) + '</p>' +
+                       '</a>';
+              }).join("") +
+            '</div>' +
+          '</div>' +
+        '</div>' +
+      '</section>'
     );
   }
 
@@ -1601,17 +1668,19 @@
     home: [
       buildHero,          //  1. Identity + the one urgent thing, above the fold
       buildSponsorStrip,  //  2. Sponsor logos — seen on every visit
-      buildStrip,         //  3. The four dates that matter
-      buildQuickLinks,    //  4. Start here
-      buildSnapshot,      //  5. Where the program stands right now
-      buildSponsors,      //  6. Sponsor recognition, by tier
-      buildSponsorValue,  //  7. Why sponsor — the pitch to businesses
-      buildNews,          //  8. Around the program
-      buildCoachWelcome,  //  9. Welcome
-      buildSpotlight,     // 10. Volunteer spotlight — the story
-      buildVolunteerCta,  // 11. One shift — the ask, right after the story
+      buildParentHub,     //  3. Season dates + quick links, unified in one place
+      buildSnapshot,      //  4. Where the program stands right now
+      buildSponsors,      //  5. Sponsor recognition, by tier
+      buildSponsorValue,  //  6. Why sponsor — the pitch to businesses
+      buildNews,          //  7. Around the program
+      buildCoachWelcome,  //  8. Welcome
+      buildSpotlight,     //  9. Volunteer spotlight — the story
+      buildVolunteerCta,  // 10. One shift — the ask, right after the story
 
-      // MOVED OFF THE HOMEPAGE — the builders still exist above and the content
+      // buildStrip and buildQuickLinks still exist above — buildParentHub
+      // now renders both in one unified card. Re-add either line here to
+      // go back to separate sections.
+      //
       // still lives in content.js, so re-adding a line here restores any of them.
       //
       //   buildOfficial — "Everything else" (six official links + address block).

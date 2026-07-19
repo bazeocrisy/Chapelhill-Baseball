@@ -74,8 +74,8 @@ const SITE = {
     headline: "Panther Baseball",
     tagline:  "GHSA Class 6A · Region 2",
     intro:    "Everything a Panther family needs for the season, in one place. Forms, dates, meetings, and news you can trust to be current.",
-    primaryCta:   { label: "Get the physical form", href: "physical-forms.html" },
-    secondaryCta: { label: "Support the program",   href: "#sponsors" },
+    primaryCta:   { label: "Get the Physical Form", href: "physical-forms.html" },
+    secondaryCta: { label: "Become a Sponsor",   href: "#sponsors" },
 
     // The one urgent thing, surfaced IN the hero so a parent sees it without
     // scrolling. Set `show: false` when nothing is urgent.
@@ -85,11 +85,9 @@ const SITE = {
       text:  "Physical packets are due August 1. No physical on file, no workout.",
     },
 
-    // !! SAMPLE — illustrated placeholder. Replace with a real photograph of
-    // the Chapel Hill field or team. This is the single highest-impact change
-    // available to this page.
-    image: "assets/img/hero-field.svg",
-    imageAlt: "Chapel Hill baseball field",
+    // Real photo of the team on the field, supplied by the client.
+    image: "assets/img/panthers-field.jpg",
+    imageAlt: "Chapel Hill Panthers baseball team on the field",
     // On-image caption. Left empty for presentation; the photo is still a
     // placeholder and remains the highest-impact thing to replace.
     imageNote: "",
@@ -197,6 +195,11 @@ const SITE = {
 
         !! EVERY SPONSOR BELOW IS INVENTED. No real business has committed.
   ---------------------------------------------------------------------------*/
+  // Tagline shown above the sponsor-logo strip under the hero.
+  sponsorStrip: {
+    tagline: "Local businesses help make Panther Baseball possible.",
+  },
+
   sponsors: {
     eyebrow: "Our sponsors",
     heading: "The businesses behind Panther baseball",
@@ -273,7 +276,7 @@ const SITE = {
       "Your name in the season program and over the PA at home games",
       "Forty families who notice who showed up for their kids",
     ],
-    cta:    { label: "Become a sponsor", href: "sponsors.html#packages" },
+    cta:    { label: "Become a Sponsor", href: "sponsors.html#packages" },
     altCta: { label: "Start a conversation", href: "sponsors.html#start" },
     note:   "",
   },

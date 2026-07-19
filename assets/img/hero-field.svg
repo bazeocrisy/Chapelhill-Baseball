@@ -1,37 +1,37 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1100" preserveAspectRatio="xMidYMid slice">
   <defs>
     <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0" stop-color="#3D1B5E"/><stop offset="1" stop-color="#1C0C2C"/>
+      <stop offset="0" stop-color="#3D1B5E"></stop><stop offset="1" stop-color="#1C0C2C"></stop>
     </linearGradient>
     <linearGradient id="grass" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0" stop-color="#4E8A57"/><stop offset="1" stop-color="#2A4F33"/>
+      <stop offset="0" stop-color="#4E8A57"></stop><stop offset="1" stop-color="#2A4F33"></stop>
     </linearGradient>
     <radialGradient id="pool" cx=".5" cy=".18" r=".85">
-      <stop offset="0" stop-color="#E8B33C" stop-opacity=".12"/>
-      <stop offset="1" stop-color="#E8B33C" stop-opacity="0"/>
+      <stop offset="0" stop-color="#E8B33C" stop-opacity=".12"></stop>
+      <stop offset="1" stop-color="#E8B33C" stop-opacity="0"></stop>
     </radialGradient>
   </defs>
-  <rect width="1600" height="1100" fill="url(#sky)"/>
-  <rect width="1600" height="1100" fill="url(#pool)"/>
+  <rect width="1600" height="1100" fill="url(#sky)"></rect>
+  <rect width="1600" height="1100" fill="url(#pool)"></rect>
   <g fill="#E8B33C" opacity=".28">
-    <rect x="245" y="120" width="12" height="240"/><rect x="188" y="82" width="126" height="52" rx="5"/>
-    <rect x="1343" y="120" width="12" height="240"/><rect x="1286" y="82" width="126" height="52" rx="5"/>
+    <rect x="245" y="120" width="12" height="240"></rect><rect x="188" y="82" width="126" height="52" rx="5"></rect>
+    <rect x="1343" y="120" width="12" height="240"></rect><rect x="1286" y="82" width="126" height="52" rx="5"></rect>
   </g>
-  <circle cx="251" cy="108" r="175" fill="#E8B33C" opacity=".05"/>
-  <circle cx="1349" cy="108" r="175" fill="#E8B33C" opacity=".05"/>
-  <rect x="0" y="352" width="1600" height="42" fill="#160923"/>
-  <rect x="0" y="352" width="1600" height="6" fill="#4A2072"/>
-  <rect x="0" y="394" width="1600" height="706" fill="url(#grass)"/>
+  <circle cx="251" cy="108" r="175" fill="#E8B33C" opacity=".05"></circle>
+  <circle cx="1349" cy="108" r="175" fill="#E8B33C" opacity=".05"></circle>
+  <rect x="0" y="352" width="1600" height="42" fill="#160923"></rect>
+  <rect x="0" y="352" width="1600" height="6" fill="#4A2072"></rect>
+  <rect x="0" y="394" width="1600" height="706" fill="url(#grass)"></rect>
   <g opacity=".08" fill="#FFFFFF">
-    <path d="M60 394 L360 1100 H140 L-80 394 Z"/>
-    <path d="M520 394 L680 1100 H480 L380 394 Z"/>
-    <path d="M960 394 L940 1100 H760 L800 394 Z"/>
-    <path d="M1400 394 L1260 1100 H1080 L1220 394 Z"/>
+    <path d="M60 394 L360 1100 H140 L-80 394 Z"></path>
+    <path d="M520 394 L680 1100 H480 L380 394 Z"></path>
+    <path d="M960 394 L940 1100 H760 L800 394 Z"></path>
+    <path d="M1400 394 L1260 1100 H1080 L1220 394 Z"></path>
   </g>
-  <ellipse cx="800" cy="1090" rx="820" ry="430" fill="#A9714B" opacity=".95"/>
-  <ellipse cx="800" cy="1120" rx="540" ry="290" fill="url(#grass)"/>
-  <ellipse cx="800" cy="880" rx="96" ry="38" fill="#BC7F53"/>
-  <rect x="781" y="871" width="38" height="10" rx="2" fill="#F5F5F7"/>
-  <path d="M800 1055 L60 394"   stroke="#F5F5F7" stroke-width="6" opacity=".42"/>
-  <path d="M800 1055 L1540 394" stroke="#F5F5F7" stroke-width="6" opacity=".42"/>
+  <ellipse cx="800" cy="1090" rx="820" ry="430" fill="#A9714B" opacity=".95"></ellipse>
+  <ellipse cx="800" cy="1120" rx="540" ry="290" fill="url(#grass)"></ellipse>
+  <ellipse cx="800" cy="880" rx="96" ry="38" fill="#BC7F53"></ellipse>
+  <rect x="781" y="871" width="38" height="10" rx="2" fill="#F5F5F7"></rect>
+  <path d="M800 1055 L60 394" stroke="#F5F5F7" stroke-width="6" opacity=".42"></path>
+  <path d="M800 1055 L1540 394" stroke="#F5F5F7" stroke-width="6" opacity=".42"></path>
 </svg>
