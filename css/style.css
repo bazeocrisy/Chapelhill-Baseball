@@ -246,7 +246,7 @@ p + p { margin-top: var(--s-4); }
   background: var(--purple-dark);
   overflow: hidden;
 }
-.hero__media { position: absolute; inset: 0; background-position: center bottom; background-size: cover; background-repeat: no-repeat; }
+.hero__media { position: absolute; inset: 0; background-position: center center; background-size: contain; background-repeat: no-repeat; background-color: var(--purple-dark); }
 .hero__scrim {
   position: absolute; inset: 0;
   /* directional — darker toward the text side (left), lighter over the photo */
