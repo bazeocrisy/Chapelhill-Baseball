@@ -52,6 +52,7 @@
     hand:     '<path d="M9 11V5.5a1.5 1.5 0 1 1 3 0V11"/><path d="M12 11V4.5a1.5 1.5 0 1 1 3 0V11"/><path d="M15 11V6.5a1.5 1.5 0 1 1 3 0V13"/><path d="M9 11V9a1.5 1.5 0 1 0-3 0v6a7 7 0 0 0 12 4.9"/>',
     mail:     '<rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/>',
     check:    '<path d="M20 6 9 17l-5-5"/>',
+    phone:    '<path d="M6.5 3h3l1.5 3.9-2 1.4a12.2 12.2 0 0 0 5.7 5.7l1.4-2 3.9 1.5v3a1.6 1.6 0 0 1-1.7 1.5A16.6 16.6 0 0 1 5 4.7 1.6 1.6 0 0 1 6.5 3z"/>',
     star:     '<path d="m12 3 2.6 5.6 6.1.8-4.5 4.2 1.2 6L12 16.8 6.6 19.6l1.2-6L3.3 9.4l6.1-.8L12 3z"/>',
     trophy:   '<path d="M8 4h8v6a4 4 0 0 1-8 0V4z"/><path d="M8 6H5.5a2.5 2.5 0 0 0 2.5 4M16 6h2.5a2.5 2.5 0 0 1-2.5 4"/><path d="M12 14v3M9 20h6M10 17h4"/>',
     grow:     '<path d="M3 21h18"/><path d="M7 21v-6M12 21V9M17 21v-9"/><path d="m4 12 4-4 4 3 5-6"/>',
@@ -1011,7 +1012,7 @@
                 esc(s.address) + "<br>" + esc(s.city) +
               "</address>" +
               '<a class="contact-card__email" href="' + esc(s.phoneHref) + '">' +
-                icon("mail") + esc(s.phone) + "</a>" +
+                icon("phone") + esc(s.phone) + "</a>" +
             "</div>" +
 
           "</div>" +

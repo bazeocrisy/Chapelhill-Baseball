@@ -3,7 +3,14 @@
 End of session 4. Written for whoever picks this up next, including a future me
 with no memory of any of it.
 
-**Current build: v2.2 · July 27, 2026 · home (2) · parents (2) · sponsors (3) · contact (2) · physical-forms (7) · booster-club (5)**
+**Current build: v2.2.1 · July 27, 2026
+
+v2.2.1 — the school phone number on the Contact page was rendering with an
+envelope icon. Added a `phone` icon to ICONS in js/main.js and wired the tel
+link to it. The "Email address coming soon" line keeps the envelope, which is
+correct. Nothing else changed.
+
+**v2.2 · July 27, 2026 · home (2) · parents (2) · sponsors (3) · contact (2) · physical-forms (7) · booster-club (5)**
 
 ---
 
