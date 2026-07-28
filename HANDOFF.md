@@ -3,7 +3,80 @@
 End of session 4. Written for whoever picks this up next, including a future me
 with no memory of any of it.
 
-**Current build: v2.1 · July 27, 2026 · home (2) · parents (2) · sponsors (3) · contact (5) · physical-forms (7) · booster-club (5)**
+**Current build: v2.2 · July 27, 2026 · home (2) · parents (2) · sponsors (3) · contact (2) · physical-forms (7) · booster-club (5)**
+
+---
+
+## v2.2 — Phase 2 refinement (July 27, 2026)
+
+### Sponsor logo row (homepage)
+
+Logos enlarged from 52px to 70px tall, about 35%. Padding around the row
+pulled in so the section reads better without taking more space.
+
+The mechanism changed, and it matters if you ever touch it. Each logo now
+sits in an equal-width slot of fixed height, fitted with `object-fit:
+contain`. That gives four things at once: every logo caps at the same visual
+size, none can ever be stretched (contain preserves the ratio by definition),
+an unusually wide logo shrinks to fit rather than breaking the row, and it
+works whether or not an SVG carries intrinsic width/height attributes. The
+earlier `height: 70px; width: auto` approach collapsed logos to zero height
+on SVGs without those attributes — worth knowing before someone "simplifies"
+it back.
+
+Desktop is `flex-wrap: nowrap` on purpose, so the row stays one row above
+900px. Below that it wraps, with slots that don't stretch to fill a short
+last row.
+
+### Contact page
+
+Cut from five sections to two: heading plus one sentence, then two cards —
+Baseball Booster Club and Chapel Hill High School. Removed the three
+role-routing cards, "what to put in the message", and the FAQ.
+
+**No email address is published, deliberately.** The three addresses this
+page used to show (`boosters@`, `coach@`, `sponsors@`) were invented for the
+mock and were never issued. The Booster Club card renders "Email address
+coming soon" instead. Put a real address in
+`SITE.contactPage.info.booster.email` and the card switches to a working
+mailto link on its own. Do not put a placeholder in that field.
+
+**There is no contact form and never has been.** Nothing was removed. A form
+needs somewhere to send mail — either a form service such as Formspree or
+Netlify Forms, or a backend. GitHub Pages serves static files only and cannot
+receive a submission. Until that's set up, the honest options are a mailto
+link or no form.
+
+`buildOfficial`, `buildContactSchool`, and `buildParentsSchool` were deleted
+too. Nothing rendered them any more.
+
+### Site-wide
+
+`.btn--lg` now goes full width and wraps below 560px. A large button's label
+is wider than a 320px screen once the gutters come off, and that was the last
+real source of horizontal scroll on the narrowest phones.
+
+### Verified
+
+Chromium at 1920 / 1440 / 1024 / 768 / 390 / 375 / 320. **Zero horizontal
+overflow on every page at every width except physical-forms, which still has
+5px at 320px only.** That one traces to `.formcard__doc`; a defensive
+`min-width: 0` was added and did not resolve it, so the real cause is
+elsewhere in that card. Left as-is: 320px is narrower than any current phone,
+and the page is out of scope for this brief.
+
+Also verified: navigation renders on all six pages, footer identical on all
+six, no empty containers, no broken links, no visible version or draft text,
+no `mailto:` links anywhere on the site.
+
+### Still open
+
+`physical-forms.html` and `booster-club.html` remain live but unreachable —
+no nav entry, no footer link, nothing pointing at them. Third time raising it.
+The GHSA physical form is the most useful thing on this site for a parent in
+August.
+
+---
 
 ---
 

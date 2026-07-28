@@ -195,39 +195,6 @@
     );
   }
 
-  // Shared by any page that needs the district's links. `override` lets a page
-  // supply its own eyebrow/heading/intro — the homepage framing ("Everything
-  // else") makes no sense on a Contact page.
-  function buildOfficial(override) {
-    var o = SITE.official, s = o.school;
-    var head = override || o;
-    return el(
-      '<section class="section section--wash" id="official">' +
-        '<div class="wrap officialgrid">' +
-          "<div>" +
-            '<span class="eyebrow">' + esc(head.eyebrow) + "</span>" +
-            "<h2>" + esc(head.heading) + "</h2><p>" + esc(head.intro) + "</p>" +
-            '<div class="official-links">' +
-              o.links.map(function (l) {
-                return '<a href="' + esc(l.href) + '" target="_blank" rel="noopener noreferrer">' +
-                       esc(l.label) + '<span class="tag-official">Official</span></a>';
-              }).join("") +
-            "</div>" +
-          "</div>" +
-          '<div class="findus">' +
-            "<h3>" + esc(s.name) + "</h3>" +
-            "<address>" + esc(s.address) + "<br>" + esc(s.city) + "<br>" +
-              '<a href="' + esc(s.phoneHref) + '">' + esc(s.phone) + "</a></address>" +
-          "</div>" +
-        "</div>" +
-      "</section>"
-    );
-  }
-
-  // Contact page's version: same links, framing that fits the page.
-  function buildContactSchool() {
-    return buildOfficial(SITE.contactPage.school);
-  }
 
   /* FOOTER — v2.1
      ----------------------------------------------------------------------
@@ -981,11 +948,6 @@
       "</section>"
     );
   }
-
-  function buildParentsSchool() {
-    return buildOfficial(SITE.parentsPage.school);
-  }
-
   /* ======================================================================
      CONTACT PAGE BUILDERS
      ----------------------------------------------------------------------
@@ -994,101 +956,64 @@
      because "Booster Club" means nothing to a parent who just wants to know
      where the fee question goes.
      ====================================================================== */
+  /* CONTACT PAGE — v2.2
+     ----------------------------------------------------------------------
+     A heading, one sentence, and two cards. Nothing else.
+
+     !! NO EMAIL ADDRESS IS PUBLISHED. The three addresses this page used to
+     show were invented for the mock and were never issued. The Booster Club
+     card renders a "coming soon" line instead, and switches to a real mailto
+     link the moment you put an address in
+     SITE.contactPage.info.booster.email. Do not type a placeholder in there.
+
+     There is no contact form on this site and never has been — nothing was
+     removed. A form needs a backend to receive it; see HANDOFF.md. */
 
   function buildContactHero() {
     var h = SITE.contactPage.hero;
     return el(
-      '<section class="hero hero--page">' +
+      '<section class="hero hero--page hero--plain">' +
         '<div class="hero__scrim" aria-hidden="true"></div>' +
         '<div class="wrap hero__inner">' +
           '<div class="hero__content">' +
-            '<p class="hero__eyebrow">' + esc(h.eyebrow) + "</p>" +
-            "<h1>" + esc(h.headline) + "</h1>" +
-            '<p class="hero__intro">' + esc(h.intro) + "</p>" +
+            (h.headline ? "<h1>" + esc(h.headline) + "</h1>" : "") +
+            (h.intro ? '<p class="hero__intro">' + esc(h.intro) + "</p>" : "") +
           "</div>" +
         "</div>" +
       "</section>"
     );
   }
 
-  // The routing table. This is the page.
-  function buildContactRoutes() {
-    var r = SITE.contactPage.routes;
+  /* Two cards, built from the same .contact-card component the page already
+     used. The school block reads from SITE.official.school — the same object
+     the footer reads — so the address exists in exactly one place. */
+  function buildContactInfo() {
+    var c = SITE.contactPage.info, s = SITE.official.school;
+    var b = c.booster;
     return el(
       '<section class="section" id="contact">' +
-        '<div class="wrap">' +
-          '<div class="section__head section__head--center">' +
-            '<span class="eyebrow">' + esc(r.eyebrow) + "</span>" +
-            "<h2>" + esc(r.heading) + "</h2>" +
-            '<p class="routes__intro">' + esc(r.intro) + "</p>" +
-          "</div>" +
-          '<div class="grid grid--3 routes">' +
-            r.items.map(function (i) {
-              return '<div class="route"' + (i.anchor ? ' id="' + esc(i.anchor) + '"' : "") + ">" +
-                       '<span class="card__icon">' + icon(i.icon) + "</span>" +
-                       "<h3>" + esc(i.role) + "</h3>" +
-                       '<p class="route__for">' + esc(i.for) + "</p>" +
-                       '<p class="route__desc">' + esc(i.desc) + "</p>" +
-                       (i.examples && i.examples.length
-                         ? '<ul class="route__eg">' +
-                             i.examples.map(function (e) {
-                               return "<li>" + esc(e) + "</li>";
-                             }).join("") +
-                           "</ul>"
-                         : "") +
-                       (i.email
-                         ? '<a class="btn btn--outline route__cta" href="mailto:' + esc(i.email) + '">' +
-                             icon("mail") + "Email " + esc(i.role.toLowerCase()) + "</a>" +
-                           '<span class="route__addr">' + esc(i.email) + "</span>"
-                         : '<span class="contact-card__pending">' + icon("mail") +
-                             "Contact details coming soon</span>") +
-                     "</div>";
-            }).join("") +
-          "</div>" +
-          sampleNote(r.note) +
-        "</div>" +
-      "</section>"
-    );
-  }
-
-  function buildContactGuidance() {
-    var g = SITE.contactPage.guidance;
-    return el(
-      '<section class="section section--wash">' +
         '<div class="wrap wrap--narrow">' +
-          '<div class="section__head section__head--center">' +
-            '<span class="eyebrow">' + esc(g.eyebrow) + "</span>" +
-            "<h2>" + esc(g.heading) + "</h2><p>" + esc(g.intro) + "</p>" +
-          "</div>" +
-          '<div class="impact">' +
-            '<ul class="ticks ticks--dark ticks--2col">' +
-              g.items.map(function (i) {
-                return "<li>" + icon("check", "icon icon--tick") + "<span>" + esc(i) + "</span></li>";
-              }).join("") +
-            "</ul>" +
-          "</div>" +
-          (g.after ? '<p class="guidance__after">' + esc(g.after) + "</p>" : "") +
-        "</div>" +
-      "</section>"
-    );
-  }
+          '<div class="grid grid--2">' +
 
-  function buildContactFaq() {
-    var f = SITE.contactPage.faq;
-    return el(
-      '<section class="section" id="faq">' +
-        '<div class="wrap wrap--narrow">' +
-          '<div class="section__head section__head--center">' +
-            '<span class="eyebrow">' + esc(f.eyebrow) + "</span>" +
-            "<h2>" + esc(f.heading) + "</h2>" +
-          "</div>" +
-          '<div class="faq">' +
-            f.items.map(function (i) {
-              return "<details class=\"faq__item\">" +
-                       "<summary><span>" + esc(i.q) + "</span></summary>" +
-                       '<div class="faq__a"><p>' + esc(i.a) + "</p></div>" +
-                     "</details>";
-            }).join("") +
+            '<div class="contact-card">' +
+              "<h2>" + esc(b.role) + "</h2>" +
+              '<p class="contact-card__desc">' + esc(b.desc) + "</p>" +
+              (b.email
+                ? '<a class="contact-card__email" href="mailto:' + esc(b.email) + '">' +
+                  icon("mail") + esc(b.email) + "</a>"
+                : '<p class="contact-card__pending">' + icon("mail") +
+                  esc(b.pending) + "</p>") +
+            "</div>" +
+
+            '<div class="contact-card">' +
+              "<h2>" + esc(s.name) + "</h2>" +
+              '<address class="contact-card__addr">' +
+                esc(s.address) + "<br>" + esc(s.city) +
+              "</address>" +
+              '<a class="contact-card__email" href="' + esc(s.phoneHref) + '">' +
+                icon("mail") + esc(s.phone) + "</a>" +
+            "</div>" +
+
           "</div>" +
         "</div>" +
       "</section>"
@@ -1196,17 +1121,18 @@
       // buildParentsFees,          Fees — pending state until confirmed
       // buildParentsFaq,           The questions we get every August
       // buildParentsAnnouncements, #announcements
-      // buildParentsSchool,        Everything that isn't baseball
+      // (buildParentsSchool was deleted in v2.2 — it rendered the district
+      //  link block, which nothing on the site uses any more.)
     ],
 
-    // IA: route first, then how to write a message, then answers that save an
-    // email, then the school for everything that isn't baseball.
+    /* CONTACT — v2.2
+       --------------------------------------------------------------------
+       A heading, one sentence, and two cards. The role-routing block, the
+       "what to put in the message" guidance, and the FAQ were removed; see
+       js/_archive/removed-sections-v3.js. */
     contact: [
-      buildContactHero,     // 1. Who can we help
-      buildContactRoutes,   // 2. THE ROUTING — the reason for the page
-      buildContactGuidance, // 3. What to put in the message
-      buildContactFaq,      // 4. Might save you an email
-      buildContactSchool,   // 5. If it isn't a baseball question
+      buildContactHero, // 1. "Contact" + one sentence
+      buildContactInfo, // 2. Booster Club card + school card
     ],
   };
 

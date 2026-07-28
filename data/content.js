@@ -628,120 +628,39 @@ const SITE = {
         real sponsor, replace them or the page routes people into a hole.
         The school phone (770.651.6200) is the only verified contact here.
   ---------------------------------------------------------------------------*/
+  /* ------------------------------------------------------------------------
+     CONTACT PAGE — v2.2
+     ------------------------------------------------------------------------
+     !! NO EMAIL ADDRESS IS PUBLISHED HERE, DELIBERATELY.
+
+     The three addresses this page used to show (boosters@, coach@, sponsors@)
+     were invented for the mock. They were never issued and nothing receives
+     mail at them. A parent emailing a dead address is worse than a parent
+     seeing no address at all, so the card shows a "coming soon" line instead.
+
+     WHEN A REAL INBOX EXISTS: type it into `booster.email` below. The page
+     switches from the coming-soon line to a working mailto link on its own.
+     Do not put a placeholder or a guess in that field.
+
+     The school's name, address, and phone are NOT repeated here — the card
+     reads them from SITE.official.school, the same object the footer uses.
+  ---------------------------------------------------------------------------*/
   contactPage: {
     hero: {
-      eyebrow:  "Contact",
-      headline: "Get in touch",
-      intro:    "Three places to start, depending on what you need. If you're not sure, pick the closest one and we'll pass it along.",
+      headline: "Contact",
+      intro:    "Contact the Chapel Hill Baseball Booster Club for general questions regarding the baseball program.",
     },
 
-    // The routing table, as cards. Order is by how often each one gets used.
-    routes: {
-      eyebrow: "Start here",
-      heading: "Who handles what",
-      // This is the line that does the work. See the note above.
-      intro:   "The Booster Club handles fees, volunteering, and sponsorship. Tryouts, practice, and playing time are the coaches' call. If it's about a game, please wait until the next day.",
-      items: [
-        { icon:  "people",
-          role:  "Baseball Booster Club",
-          anchor: "booster",
-          for:   "Parents, volunteers, and anyone who wants to help",
-          desc:  "Fees and the assistance fund, volunteering, meetings, fundraising, and the banquet.",
-          email: "boosters@chapelhillbaseball.org",
-          examples: [
-            "The fee is a problem this year",
-            "I can work a concession shift",
-            "When is the next meeting?",
-          ] },
-        { icon:  "field",
-          role:  "Baseball program",
-          anchor: "program",
-          for:   "Players and parents, current and prospective",
-          desc:  "Tryouts, practice, the roster, and playing time. The coaches, not the Booster Club.",
-          email: "coach@chapelhillbaseball.org",
-          examples: [
-            "We're moving into the district next year",
-            "When do tryouts start?",
-            "My son is hurt and will miss a week",
-          ] },
-        { icon:  "star",
-          role:  "Sponsorship",
-          anchor: "sponsorship",
-          for:   "Local businesses",
-          desc:  "Banners, packets, program ads, and in-kind support. Ask for the sponsor packet.",
-          email: "sponsors@chapelhillbaseball.org",
-          examples: [
-            "Send me the sponsor packet",
-            "We'd rather donate materials than money",
-            "Is our banner going up this season?",
-          ] },
-      ],
-      note: "",
-    },
-
-    // Sets expectations without promising a response time nobody has agreed to.
-    guidance: {
-      eyebrow: "Before you write",
-      heading: "What to put in the message",
-      intro:   "We're parents with day jobs. A message with these in it gets answered faster, because nobody has to write back asking.",
-      items: [
-        "Your son's name and grade",
-        "What you're asking about, in the subject line",
-        "A phone number if it's easier to call you back",
-        "For sponsorships: the business name and who to reach",
-      ],
-      // !! Deliberately no response-time promise. Nobody has committed to one.
-      after: "If it's urgent and it's about a player's safety or eligibility, call the school at 770.651.6200 instead of emailing.",
-    },
-
-    faq: {
-      eyebrow: "Quick answers",
-      heading: "Might save you an email",
-      items: [
-        { q: "Who decides who makes the team?",
-          a: "The coaching staff, entirely. The Booster Club has no say in the roster or in playing time, and we don't pass those messages along." },
-        { q: "We can't afford the fee. What now?",
-          a: "Email the Booster Club. There's an assistance fund and the conversation stays between you and the board." },
-        { q: "Can I email about a call the umpire made?",
-          a: "Please wait until the next day. That goes for coaches and parents both." },
-        { q: "How do I sponsor the team?",
-          a: "Email the sponsorship address and ask for the packet. Three levels, and in-kind support counts." },
-        { q: "Is this the school's website?",
-          a: "No. This site is run by the Baseball Booster Club. For school policy, registration, attendance, or transportation, use the district's site." },
-        { q: "Who do I call about grades or eligibility paperwork?",
-          a: "The school front office at 770.651.6200. That's school business, not ours." },
-      ],
-    },
-
-    // "If your question belongs elsewhere" — the school route.
-    school: {
-      eyebrow: "Not a baseball question?",
-      heading: "The school handles the rest",
-      intro:   "Registration, attendance, transportation, grades, and school policy all live with Chapel Hill High School and Douglas County. We link there rather than copy it, so what you read is current.",
+    info: {
+      booster: {
+        role:    "Baseball Booster Club",
+        desc:    "General questions about the baseball program.",
+        email:   "",                          // <- real address goes here
+        pending: "Email address coming soon",
+      },
     },
   },
 
-  /* ------------------------------------------------------------------------
-     PARENTS PAGE
-     ------------------------------------------------------------------------
-     What the homepage quick-link card promises: "Meetings, dates, paperwork,
-     and the questions we get every year." That's this page's contract. Fees
-     were added because they're the question that actually gets asked most.
-
-     !! DATES ARE NOT DUPLICATED HERE. The four dates render from
-        `SITE.seasonStrip` — the same array the homepage strip uses. Edit them
-        once, both pages update. The `notes` object below adds page-only
-        detail keyed to the same labels, so the DATES live in one place and
-        only the extra prose lives here.
-
-        Do not paste the dates into this section. Two lists drift, and a stale
-        tryout date on the page built to be authoritative about dates is worse
-        than no page at all.
-
-     Game schedule is NOT here either. It links to the school athletics
-     calendar, per the standing rule in README: link, don't copy, so it can't
-     go stale.
-  ---------------------------------------------------------------------------*/
   parentsPage: {
     // v2.0: the intro paragraph and the two buttons were removed. Add
     // `intro`, `primaryCta`, or `secondaryCta` back here and they reappear —
@@ -1102,7 +1021,7 @@ const SITE = {
     // the footer instead — View Page Source on the live site and search for
     // "build" to confirm which version a browser actually served.
     // STILL BUMP `rev` EVERY TIME YOU PUSH.
-    rev:  "v2.1",
+    rev:  "v2.2",
     date: "July 27, 2026",
   },
 
