@@ -97,9 +97,6 @@ p + p { margin-top: var(--s-4); }
 .wrap { width: 100%; max-width: var(--max); margin-inline: auto; padding-inline: var(--gutter); }
 .section { padding-block: clamp(3.5rem, 7vw, var(--s-9)); }
 .section--wash { background: var(--purple-wash); }
-.section--purple { background: var(--purple); }
-.section--purple h2, .section--purple h3 { color: var(--white); }
-.section--purple p { color: rgba(255,255,255,.84); }
 
 .section__head { max-width: 60ch; margin-bottom: var(--s-7); }
 .section__head--center { margin-inline: auto; text-align: center; }
@@ -111,7 +108,6 @@ p + p { margin-top: var(--s-4); }
   font-size: .78rem; font-weight: 600; letter-spacing: .18em;
   color: var(--purple-lift);
 }
-.section--purple .eyebrow { color: var(--accent); }
 
 .grid { display: grid; gap: var(--s-5); }
 .grid--3 { grid-template-columns: repeat(auto-fit, minmax(min(260px, 100%), 1fr)); }
@@ -123,7 +119,6 @@ p + p { margin-top: var(--s-4); }
   font-size: .78rem; line-height: 1.5; color: var(--grey-500);
   font-style: italic; margin-top: var(--s-4);
 }
-.section--purple .samplenote { color: rgba(255,255,255,.55); }
 
 /* --------------------------------------------------------------------------
    4. BUTTONS
@@ -146,9 +141,6 @@ p + p { margin-top: var(--s-4); }
 .btn--ghost:hover { background: var(--white); color: var(--purple-deep); border-color: var(--white); }
 .btn--outline { background: transparent; color: var(--purple); border-color: var(--purple); }
 .btn--outline:hover { background: var(--purple); color: var(--white); }
-
-.section--purple .btn--outline { color: var(--white); border-color: rgba(255,255,255,.6); }
-.section--purple .btn--outline:hover { background: var(--white); color: var(--purple-deep); }
 
 .tag-official {
   display: inline-block;
@@ -474,6 +466,34 @@ a.card:hover .card__more::after { margin-left: 3px; }
 }
 .footer__legal { text-align: right; }
 .footer__legal p { margin: 0; font-size: .78rem; }
+
+/* v2.1 — school contact block, then the one-sentence disclaimer box, then
+   the brand/copyright row. Centred and compact: this is reference
+   information in the lower footer, not a section of its own. */
+.footer__school { text-align: center; }
+.footer__school p { margin: 0; line-height: 1.7; }
+.footer__school p.footer__school-name {
+  font-family: var(--font-display); text-transform: uppercase;
+  letter-spacing: .06em; font-size: 1rem; color: var(--white);
+  margin-bottom: var(--s-1);
+}
+.footer__school a { color: inherit; }
+.footer__school a:hover { color: var(--accent); }
+
+.footer__note {
+  max-width: 62ch; margin: var(--s-5) auto 0;
+  padding: var(--s-3) var(--s-4);
+  border: 1px solid rgba(255,255,255,.16); border-radius: var(--radius);
+  background: rgba(0,0,0,.2);
+  font-size: .82rem; line-height: 1.6; color: rgba(255,255,255,.78);
+  text-align: center;
+}
+
+/* The base row now sits under content, so it gets its rule back. */
+.footer__base {
+  margin-top: var(--s-5); padding-top: var(--s-4);
+  border-top: 1px solid rgba(255,255,255,.1);
+}
 @media (max-width: 560px) {
   .footer__base { justify-content: center; text-align: center; }
   .footer__brand { justify-content: center; }
@@ -608,21 +628,13 @@ a.card:hover .card__more::after { margin-left: 3px; }
 /* --------------------------------------------------------------------------
    29. VOLUNTEER CTA — the ask for everyone who can't sponsor
    -------------------------------------------------------------------------- */
-.volcta { background: var(--purple); padding-block: var(--s-7); }
-.volcta__inner {
-  display: flex; flex-wrap: wrap; align-items: center;
-  justify-content: space-between; gap: var(--s-5) var(--s-6);
-}
-.volcta__body { flex: 1 1 460px; }
-.volcta h2 { color: var(--white); margin-top: var(--s-1); font-size: clamp(1.5rem, 2.6vw, 2.1rem); }
-.volcta p { color: rgba(255,255,255,.84); margin-top: var(--s-3); max-width: 56ch; }
+
 .volcta__roles { display: flex; flex-wrap: wrap; gap: var(--s-2); margin-top: var(--s-4); }
 .volcta__roles li {
   font-size: .8rem; font-weight: 500; color: rgba(255,255,255,.9);
   border: 1px solid rgba(255,255,255,.28); border-radius: 999px;
   padding: .3rem .8rem;
 }
-@media (max-width: 640px) { .volcta .btn { width: 100%; } }
 
 /* --------------------------------------------------------------------------
    30. MOBILE — new sections
@@ -643,7 +655,7 @@ a.card:hover .card__more::after { margin-left: 3px; }
   .devpoint p { font-size: .85rem; }
   
 
-  .volcta { padding-block: var(--s-6); }
+  
 }
 
 /* --------------------------------------------------------------------------
@@ -691,10 +703,6 @@ a.card:hover .card__more::after { margin-left: 3px; }
    not to read as unfinished, visible enough to check after a push.
    -------------------------------------------------------------------------- */
 .footer__base { display: flex; flex-wrap: wrap; justify-content: space-between; gap: var(--s-2) var(--s-4); }
-.footer__rev {
-  margin: 0; font-size: .72rem; letter-spacing: .06em;
-  color: rgba(255,255,255,.4); font-variant-numeric: tabular-nums;
-}
 
 /* --------------------------------------------------------------------------
    34. PHYSICAL FORMS PAGE
@@ -1136,17 +1144,43 @@ a.card:hover .card__more::after { margin-left: 3px; }
 }
 
 /* --------------------------------------------------------------------------
-   37. SPONSORS PAGE (Become a Sponsor)
+   37. SPONSORS PAGE
    ------------------------------------------------------------------------
-   New components: .pkg (package cards), .steps (numbered process), .recgrid
-   (recognition), .cp (community-partner placeholders). Everything else reuses
-   .card, .ticks, .faq, .impact, .volcta.
+   One component: .sponsorgrid. The package cards, numbered process steps,
+   recognition grid, and community-partner placeholders were all removed in
+   v2.1 along with the sections that used them.
    -------------------------------------------------------------------------- */
 
-.hero__kicker {
-  margin-top: var(--s-5); padding-top: var(--s-4);
-  border-top: 1px solid rgba(255,255,255,.18);
-  font-size: .92rem; color: rgba(255,255,255,.72); max-width: 52ch; line-height: 1.6;
+/* v2.1 — the page is a plain title, a logo grid, and a "more soon" line.
+
+   .sponsorgrid keeps every tile the same size while leaving each LOGO at its
+   own proportions: fixed aspect-ratio on the tile, then max-width/max-height
+   with width/height auto on the image. Nothing is ever stretched, whatever
+   shape the source file is. Tiles wrap on their own; no ranking by tier. */
+.hero--plain .hero__inner { padding-block: clamp(2rem, 4vw, 2.75rem); }
+
+.sponsorgrid {
+  display: grid; gap: var(--s-4);
+  grid-template-columns: repeat(auto-fill, minmax(min(170px, 100%), 1fr));
+}
+.sponsorgrid__item {
+  display: grid; place-items: center; min-width: 0;
+  aspect-ratio: 3 / 2; padding: var(--s-4); overflow: hidden;
+  background: var(--white); border: 1px solid var(--grey-200);
+  border-radius: var(--radius-lg);
+}
+.sponsorgrid__item img { max-width: 100%; max-height: 100%; width: auto; height: auto; }
+a.sponsorgrid__item { transition: border-color .18s ease, box-shadow .18s ease, transform .18s ease; }
+a.sponsorgrid__item:hover { border-color: var(--purple); box-shadow: var(--shadow-sm); transform: translateY(-2px); }
+
+.infocta { margin-top: var(--s-5); text-align: center; }
+
+@media (max-width: 560px) {
+  .sponsorgrid { grid-template-columns: 1fr 1fr; gap: var(--s-3); }
+  .sponsorgrid__item { padding: var(--s-3); }
+  /* The button's label is wider than a 320px screen once the gutters are
+     taken off, so let it fill the column and wrap instead of overhanging. */
+  .infocta .btn { width: 100%; white-space: normal; }
 }
 
 /* The demonstration notice, sitting with the prices it governs. */
@@ -1205,78 +1239,29 @@ a.card:hover .card__more::after { margin-left: 3px; }
   font-family: var(--font-display); font-weight: 700; line-height: 1;
   font-size: 2.4rem; color: var(--purple-deep);
 }
-.pkg__desc { font-size: .9rem; color: var(--grey-500); line-height: 1.6; }
+
 .pkg__benefits { display: grid; gap: var(--s-2); margin: var(--s-4) 0 var(--s-5); }
 .pkg__benefits li { display: flex; align-items: flex-start; gap: var(--s-2); font-size: .88rem; line-height: 1.45; color: var(--grey-600); }
 .pkg__benefits .icon--tick { color: var(--purple); margin-top: 3px; width: 16px; height: 16px; }
 .pkg__cta { margin-top: auto; width: 100%; }
 
 /* --- Recognition grid ---------------------------------------------------- */
-.recgrid {
-  display: grid; gap: var(--s-3);
-  grid-template-columns: repeat(auto-fit, minmax(min(220px, 100%), 1fr));
-}
-.recitem {
-  display: flex; align-items: center; gap: var(--s-3);
-  background: var(--white); border: 1px solid var(--grey-200);
-  border-radius: var(--radius); padding: var(--s-4);
-  font-size: .92rem; color: var(--grey-700);
-}
-.recitem .icon--tick { color: var(--purple); flex: none; }
 
 /* --- Process steps ------------------------------------------------------- */
-.steps {
-  display: grid; gap: var(--s-5);
-  grid-template-columns: repeat(auto-fit, minmax(min(220px, 100%), 1fr));
-  counter-reset: step;
-}
-.step { display: flex; gap: var(--s-4); align-items: flex-start; }
-.step__n {
-  flex: none;
-  width: 44px; height: 44px; border-radius: 50%;
-  background: var(--purple); color: var(--white);
-  display: grid; place-items: center;
-  font-family: var(--font-display); font-weight: 700; font-size: 1.3rem;
-}
-.step__body h3 { font-size: 1.05rem; }
-.step__body p { margin-top: var(--s-1); font-size: .9rem; color: var(--grey-500); line-height: 1.55; }
 
 /* --- Community partners preview ------------------------------------------ */
-.cpgrid {
-  display: grid; gap: var(--s-4);
-  grid-template-columns: repeat(auto-fit, minmax(min(160px, 100%), 1fr));
-}
-.cp {
-  background: var(--white); border: 1px solid var(--grey-200);
-  border-radius: var(--radius-lg); padding: var(--s-5) var(--s-4);
-  text-align: center; display: flex; flex-direction: column; align-items: center; gap: var(--s-2);
-}
-.cp__mark {
-  width: 52px; height: 52px; border-radius: 50%;
-  border: 2px dashed var(--grey-300);
-  display: grid; place-items: center;
-  font-family: var(--font-display); font-weight: 700; font-size: 1rem;
-  color: var(--grey-500);
-}
-.cp__name {
-  font-family: var(--font-display); text-transform: uppercase;
-  font-size: .82rem; letter-spacing: .04em; color: var(--purple-deep); margin-top: var(--s-1);
-}
-.cp__level { font-size: .72rem; color: var(--purple-lift); letter-spacing: .04em; }
 
 .start__cta { text-align: center; margin-top: var(--s-6); }
-.section--purple .start__cta .btn--primary { box-shadow: var(--shadow); }
-.volcta__actions { display: flex; flex-wrap: wrap; gap: var(--s-3); }
 
 @media (max-width: 700px) {
   .pkg { padding: var(--s-5) var(--s-4); }
   .pkg__amount { font-size: 2rem; }
-  .recgrid { grid-template-columns: 1fr; }
-  .step { gap: var(--s-3); }
-  .step__n { width: 38px; height: 38px; font-size: 1.1rem; }
-  .cpgrid { grid-template-columns: 1fr 1fr; }
-  .volcta__actions { width: 100%; }
-  .volcta__actions .btn { width: 100%; }
+  
+  
+  
+  
+  
+  
   .pkgnote { padding: var(--s-3) var(--s-4); }
 }
 

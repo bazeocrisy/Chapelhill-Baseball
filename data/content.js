@@ -58,7 +58,8 @@ const SITE = {
   ---------------------------------------------------------------------------*/
   identity: {
     programName: "Chapel Hill Baseball",
-    orgName:     "Baseball Booster Club",
+    // Drives the footer copyright line: "© 2026 <orgName>."
+    orgName:     "Chapel Hill Baseball Booster Club",
     schoolName:  "Chapel Hill High School",
 
     // !! Confirm permission with the athletic department before going public.
@@ -915,210 +916,35 @@ const SITE = {
      the board's actual tiers, then flip nothing else — the page renders from
      here.
   ---------------------------------------------------------------------------*/
+  /* ------------------------------------------------------------------------
+     SPONSORS PAGE — v2.1
+     ------------------------------------------------------------------------
+     !! DELIBERATELY MINIMAL.
+
+     Packages, prices, benefit lists, reach figures, deadlines, and the
+     interest form were all removed. None of it had been approved by the
+     board, and published sponsorship terms create expectations the Booster
+     Club would have to honour.
+
+     Do not add any of it back until the board supplies real numbers in
+     writing. The logos come from SITE.sponsors.levels — the same list the
+     homepage row uses, so there is only one place to add a sponsor.
+  ---------------------------------------------------------------------------*/
   sponsorPage: {
-    status: "demo",
-
     hero: {
-      eyebrow:  "Community partnerships",
-      headline: "Become a Panther baseball sponsor",
-      intro:    "Partner with Chapel Hill baseball to support student-athletes, strengthen the program, and put your name in front of Panther families and the community.",
-      kicker:   "Strong programs are built by committed players, families, coaches, alumni, and community partners.",
-      primaryCta:   { label: "See sponsorship levels", href: "#packages" },
-      secondaryCta: { label: "Start a conversation",   href: "#start" },
+      headline: "Sponsors",
+      intro:    "We appreciate the businesses and community partners who support Chapel Hill Baseball.",
     },
 
-    value: {
-      eyebrow: "More than a logo",
-      heading: "What a sponsorship really is",
-      intro:   "Putting a business name on a banner is the smallest part. A sponsorship is a local partnership that builds something for the kids and gets your name in front of the people who notice who showed up.",
-      items: [
-        { icon: "people", title: "Support the players",
-          body: "Help build the environment where these boys prepare, develop, and represent their school." },
-        { icon: "grow", title: "Strengthen the program",
-          body: "Back the resources it takes to run and improve a competitive baseball program." },
-        { icon: "star", title: "Reach the community",
-          body: "Build goodwill with local families, alumni, and everyone who comes through the gate." },
-      ],
-    },
-
-    impact: {
-      eyebrow: "Your partnership at work",
-      heading: "Where support tends to go",
-      intro:   "Sponsorship helps strengthen the program priorities the board sets each season. It isn't earmarked dollar-for-dollar, but it tends to land here:",
-      items: [
-        "Equipment and training resources",
-        "Field and facility improvements",
-        "Player-development opportunities",
-        "Team travel and experiences",
-        "Program operations",
-        "Events and recognition",
-        "Community engagement",
-        "Future program initiatives",
-      ],
-      note: "Sponsorship support helps strengthen approved program priorities set by Chapel Hill baseball and Booster Club leadership.",
-    },
-
-    // The demonstration notice that sits right at the packages.
-    disclosure: "Demonstration data: sponsorship levels, investment amounts, benefits, and contact information shown here are sample content for the proposed website experience. Final information must be reviewed and approved by Chapel Hill baseball and Booster Club leadership before launch.",
-
-    packages: {
-      eyebrow: "Sponsorship levels",
-      heading: "Choose a partnership",
-      items: [
-        { id: "community", name: "Community Supporter", amount: "$250", featured: false,
-          desc: "For individuals, families, and small businesses that want to back Panther baseball.",
-          benefits: [
-            "Recognition in the online sponsor directory",
-            "Business or family name on the website",
-            "Season appreciation recognition",
-          ] },
-        { id: "bronze", name: "Bronze Partner", amount: "$500", featured: false,
-          desc: "A strong entry point for local businesses that want community visibility.",
-          benefits: [
-            "Online sponsor directory listing",
-            "Business logo on the sponsor page",
-            "Social-media thank-you",
-            "Game-day acknowledgment",
-          ] },
-        { id: "silver", name: "Silver Partner", amount: "$1,000", featured: false,
-          desc: "Expanded recognition for organizations committed to the program.",
-          benefits: [
-            "Featured directory placement",
-            "Business logo and website link",
-            "Social-media recognition",
-            "Game-day announcements",
-            "Field-banner opportunity",
-          ] },
-        { id: "gold", name: "Gold Partner", amount: "$2,500", featured: true, badge: "Featured",
-          desc: "Premier season-long recognition for a business making a real investment in the program.",
-          benefits: [
-            "Prominent website recognition",
-            "Featured sponsor spotlight",
-            "Business logo and website link",
-            "Social-media feature",
-            "Field signage",
-            "Recognition at selected events",
-          ] },
-        { id: "championship", name: "Championship Partner", amount: "Custom", featured: false,
-          desc: "A tailored partnership for an organization that wants a prominent relationship with the program.",
-          benefits: [
-            "Custom recognition strategy",
-            "Collaborative opportunities",
-            "Prominent program recognition",
-            "Tailored digital and event visibility",
-            "Direct partnership planning",
-          ] },
-      ],
-    },
-
-    recognition: {
-      eyebrow: "Recognition",
-      heading: "How sponsors get seen",
-      items: [
-        "Website recognition", "Sponsor-directory placement", "Social-media features",
-        "Game-day announcements", "Field signage", "Event recognition",
-        "Digital program placement", "Community-partner features",
-      ],
-      note: "What's available depends on the level, timing, school requirements, and final program approval.",
-    },
-
-    process: {
-      eyebrow: "How it works",
-      heading: "A simple process",
-      items: [
-        { n: 1, title: "Pick a level", body: "Look over the levels and find the one that fits your organization." },
-        { n: 2, title: "Reach out", body: "Send us your business details through the Contact page. No obligation." },
-        { n: 3, title: "Confirm", body: "We confirm the level, benefits, payment, and what materials we need." },
-        { n: 4, title: "Go up", body: "After approval and payment, send your logo and the recognition begins." },
-      ],
-    },
-
-    // Replaces the fake form. Routes to Contact. No email shown here.
-    start: {
-      eyebrow: "Start a conversation",
-      heading: "Talk to us about sponsoring",
-      intro:   "Reaching out expresses interest. It doesn't commit you to anything. Tell us a little and we'll take it from there.",
-      bring: [
-        "Business or organization name",
-        "A contact name and the best way to reach you",
-        "The level you're considering, or that you're not sure yet",
-        "Whether you'd rather give materials than money",
-      ],
-      cta: { label: "Start a sponsorship conversation", href: "contact.html#sponsorship" },
-      // No mailto here on purpose. The (demo) address lives on Contact.
-      note: "Do not send credit-card, banking, or tax information through email.",
-    },
-
-    faq: {
-      eyebrow: "Questions",
-      heading: "Before you reach out",
-      items: [
-        { q: "What does sponsorship support?",
-          a: "It helps strengthen approved areas: equipment, facilities, player development, program operations, team experiences, and community engagement." },
-        { q: "Can we give products or services instead of money?",
-          a: "In-kind support may work when it fits a program need and gets approved. Ask." },
-        { q: "Can a sponsorship be customized?",
-          a: "Yes. The Championship level exists for organizations that want a more tailored relationship." },
-        { q: "How long does recognition last?",
-          a: "Generally the applicable baseball season, unless the final agreement says otherwise." },
-        { q: "Is sponsorship tax deductible?",
-          a: "That depends on your organization, the nature of the payment, and tax rules. Ask your own tax professional. We don't claim it's deductible unless the Booster Club confirms the legal and tax status." },
-        { q: "When does recognition begin?",
-          a: "After the sponsorship is approved, payment is complete, and we've received your materials." },
-        { q: "What logo files do you need?",
-          a: "Usually a high-quality PNG, JPG, or SVG. The program confirms the exact requirements." },
-      ],
-    },
-
-    community: {
-      eyebrow: "Community partners",
-      heading: "How sponsors will appear",
-      intro:   "A preview of the directory. These are placeholders, not real businesses.",
-      items: [
-        { name: "Community Partner",   level: "Community Supporter" },
-        { name: "Local Business",      level: "Bronze Partner" },
-        { name: "Panther Supporter",   level: "Silver Partner" },
-        { name: "Featured Partner",    level: "Gold Partner" },
-        { name: "Program Partner",     level: "Silver Partner" },
-        { name: "Championship Partner", level: "Championship Partner" },
-      ],
-      note: "Verified sponsor logos and business information will replace these before launch.",
-    },
-
-    finalCta: {
-      eyebrow: "Build what comes next",
-      heading: "Help build what comes next",
-      body:    "Strong programs are built on preparation, teamwork, family support, and community partners. Let's talk about how your organization can back Chapel Hill baseball.",
-      primaryCta:   { label: "See the levels", href: "#packages" },
-      secondaryCta: { label: "Start a conversation", href: "contact.html#sponsorship" },
+    info: {
+      heading: "Sponsorship Information",
+      body:    "Additional sponsorship information will be available soon.",
+      // Points at the existing Contact page. Do not put an email address here
+      // — no sponsorship inbox has been confirmed yet.
+      cta:     { label: "Contact the Booster Club", href: "contact.html" },
     },
   },
 
-  /* ------------------------------------------------------------------------
-     BOOSTER CLUB PAGE
-     ------------------------------------------------------------------------
-     Modeled on real HS baseball booster pages (Emerson Mavericks, Heritage,
-     Norman Tigers). The pattern they all share: mission → membership tiers →
-     what we fund / board → volunteer → contact. Player-development and alumni
-     content does NOT go here on real sites; that's a coaches'/about page.
-
-     The mission and volunteer voice is lifted from the existing
-     SITE.boosterClub and SITE.spotlight — that's the program's real voice,
-     keep it.
-
-     !! MEMBERSHIP TIERS ARE MARKED DEMO ($50/$100/$150). Same treatment as the
-        sponsorship tiers: a buy-in pitch, clearly labeled sample data, that
-        nobody pays off a mock. The `demoNote` says so on the page. These are
-        PARENT memberships, distinct from the business SPONSORSHIP on
-        sponsors.html.
-
-     !! BOARD ROLES ONLY — NO NAMES. Real booster sites list real officer
-        names (President, Treasurer, etc). We list the ROLES without names,
-        same rule as everywhere else: no invented person on a real title.
-
-     The #volunteer anchor is required — nav and several CTAs link to
-     booster-club.html#volunteer.
-  ---------------------------------------------------------------------------*/
   boosterPage: {
     hero: {
       eyebrow:  "The Booster Club",
@@ -1245,7 +1071,13 @@ const SITE = {
   /* ------------------------------------------------------------------------
      16. FOOTER DISCLAIMER — required. Do not remove.
   ---------------------------------------------------------------------------*/
-  disclaimer: "This website supports the Chapel Hill High School Baseball program and Baseball Booster Club. Please visit the official Chapel Hill High School website for school policies, district information, official schedules, registration, transportation, and other schoolwide resources.",
+  // The bordered box above the copyright line, on every page.
+  // v2.1: the second sentence ("Please visit the official Chapel Hill High
+  // School website for school policies, district information, official
+  // schedules, registration, transportation, and other schoolwide
+  // resources.") was removed at the client's request, along with the link it
+  // carried. Keep this to one sentence.
+  disclaimer: "This website supports the Chapel Hill High School Baseball program and Baseball Booster Club.",
 
   // Shown in the footer after the copyright line. Left empty for a clean
   // presentation. Put the draft notice back here before sharing publicly.
@@ -1266,10 +1098,12 @@ const SITE = {
      Set `show: false` to hide it before real launch.
   ---------------------------------------------------------------------------*/
   revision: {
-    show: true,
-    rev:  "v2.0",
+    // v2.1: no longer shown on the page. It now ships as an HTML comment in
+    // the footer instead — View Page Source on the live site and search for
+    // "build" to confirm which version a browser actually served.
+    // STILL BUMP `rev` EVERY TIME YOU PUSH.
+    rev:  "v2.1",
     date: "July 27, 2026",
-    note: "Homepage draft",
   },
 
   /* ------------------------------------------------------------------------

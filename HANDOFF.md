@@ -3,7 +3,71 @@
 End of session 4. Written for whoever picks this up next, including a future me
 with no memory of any of it.
 
-**Current build: v2.0 · July 27, 2026 · home (2) · parents (2) · physical-forms (7) · contact (5) · sponsors (10) · booster-club (5)**
+**Current build: v2.1 · July 27, 2026 · home (2) · parents (2) · sponsors (3) · contact (5) · physical-forms (7) · booster-club (5)**
+
+---
+
+## v2.1 — Footer restoration and Sponsors page simplification (July 27, 2026)
+
+### Footer (all pages)
+
+The footer now carries three stacked pieces: the school contact block, a
+one-sentence disclaimer box, then brand and copyright. Order on the homepage
+is sponsor logo row, school contact, disclaimer box, copyright.
+
+Added back — Chapel Hill High School, 4899 Chapel Hill Road, Douglasville GA
+30135, 770.651.6200, with the phone as a `tel:` link. Read from
+`SITE.official.school`, so there is still only one copy of the address.
+
+Disclaimer box restored with the first sentence only. The second sentence
+("Please visit the official Chapel Hill High School website for school
+policies, district information, official schedules, registration,
+transportation, and other schoolwide resources.") was removed along with the
+link it carried.
+
+Copyright is now "© 2026 Chapel Hill Baseball Booster Club." The year is still
+generated at page load, so it rolls over on its own; the name comes from
+`SITE.identity.orgName`.
+
+The visible build stamp is gone. **It now ships as an HTML comment inside the
+footer instead** — right-click the live page, View Page Source, search for
+"build". Keep bumping `SITE.revision.rev` on every push; that check is the only
+reliable way to tell a stale cache from a failed deploy.
+
+### Sponsors page
+
+Cut from ten sections to three: page title, logo grid, "more information
+soon". Removed — the marketing hero and its two CTAs, More Than a Logo, Your
+Partnership at Work, package tiers with prices and benefit lists, How Sponsors
+Get Seen, How It Works, Start a Conversation, the FAQ, Community Partners, and
+the closing CTA. Ten builders deleted from `js/main.js` and parked in
+`js/_archive/removed-sections-v2.js`; 39 more CSS selectors pruned.
+
+Nothing on the page now promises a sponsor anything. That was the point.
+
+**Logo grid.** One flat grid, every tier together, no ranking, no captions.
+Tiles are a fixed 3:2 with the image at `max-width`/`max-height` and `auto` on
+both axes, so no logo is ever stretched whatever shape the file is. A logo
+links out only if `content.js` gives it a real http(s) URL — a `#` placeholder
+renders as a plain tile, because a dead link on a sponsor's logo is worse than
+no link. Both current placeholders are `#`, so nothing is clickable today.
+
+### Verified
+
+Chromium at 1920 / 1440 / 1024 / 768 / 390 / 320. **Homepage and Sponsors both
+have zero horizontal overflow at every width, including 320px.** Sponsors was
+136px at 320 before this pass. Parents is 2px, physical-forms 5px,
+booster-club 21px, contact 100px — all pre-existing `.wrap` gutter behaviour on
+pages this revision didn't touch. No JS errors, no empty containers, no broken
+internal links.
+
+### Still open from v2.0
+
+`physical-forms.html` and `booster-club.html` remain live but unreachable — no
+nav entry, no footer link, nothing pointing at them. The GHSA physical form is
+the most useful thing on the site for a parent in August. Worth raising again.
+
+---
 
 ---
 

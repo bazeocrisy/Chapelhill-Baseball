@@ -229,30 +229,39 @@
     return buildOfficial(SITE.contactPage.school);
   }
 
-  /* FOOTER — v2.0
+  /* FOOTER — v2.1
      ----------------------------------------------------------------------
-     Program name, copyright, revision stamp. That's it. The four-column
-     grid (Pages / Official school links / school address block) and the
-     "please visit the official school website" disclaimer paragraph were
-     all removed at the Booster Club's request.
+     Shared by every page. Three stacked pieces, in this order:
 
-     This footer is shared by every page, so the change applies site-wide.
-     SITE.footerBlurb and SITE.disclaimer are still in data/content.js and
-     are simply no longer rendered anywhere. */
+       1. School contact block  — SITE.official.school
+       2. Disclaimer box        — SITE.disclaimer (one sentence, no link)
+       3. Brand + copyright     — SITE.identity
+
+     The visible build stamp was removed at the client's request. It still
+     goes out as an HTML comment, so you can confirm which build a browser
+     actually served: right-click the live page, View Page Source, and search
+     for "build". Bump SITE.revision.rev after every push, same as before. */
   function buildFooter() {
-    var id = SITE.identity;
+    var id = SITE.identity, s = SITE.official.school, r = SITE.revision || {};
+    var stamp = r.rev ? "<!-- build " + esc(r.rev) + " · " + esc(r.date || "") + " -->" : "";
     return el(
       '<footer class="footer"><div class="wrap">' +
+        stamp +
+        '<div class="footer__school">' +
+          '<p class="footer__school-name">' + esc(s.name) + "</p>" +
+          "<p>" + esc(s.address) + "</p>" +
+          "<p>" + esc(s.city) + "</p>" +
+          '<p><a href="' + esc(s.phoneHref) + '">' + esc(s.phone) + "</a></p>" +
+        "</div>" +
+        (SITE.disclaimer
+          ? '<div class="footer__note">' + esc(SITE.disclaimer) + "</div>"
+          : "") +
         '<div class="footer__base">' +
           '<div class="footer__brand">' + brandMark() +
             "<span>" + esc(id.programName) + "</span></div>" +
           '<div class="footer__legal">' +
             "<p>&copy; " + new Date().getFullYear() + " " + esc(id.orgName) + "." +
               (SITE.draftNotice ? " " + esc(SITE.draftNotice) : "") + "</p>" +
-            (SITE.revision && SITE.revision.show
-              ? '<p class="footer__rev">' + esc(SITE.revision.note) + " " +
-                esc(SITE.revision.rev) + " · " + esc(SITE.revision.date) + "</p>"
-              : "") +
           "</div>" +
         "</div>" +
       "</div></footer>"
@@ -655,45 +664,54 @@
      SPONSORS PAGE BUILDERS (Become a Sponsor)
      ====================================================================== */
 
+  /* SPONSORS PAGE — v2.1
+     ----------------------------------------------------------------------
+     Three sections: a plain page title, the logos, and a line saying more is
+     coming. Everything the board hadn't approved is gone — prices, tiers,
+     benefit promises, reach figures, deadlines, the interest form.
+
+     Old builders are parked in js/_archive/removed-sections-v2.js. */
+
   function buildSponsorsHero() {
     var h = SITE.sponsorPage.hero;
     return el(
-      '<section class="hero hero--page">' +
+      '<section class="hero hero--page hero--plain">' +
         '<div class="hero__scrim" aria-hidden="true"></div>' +
         '<div class="wrap hero__inner">' +
           '<div class="hero__content">' +
-            '<p class="hero__eyebrow">' + esc(h.eyebrow) + "</p>" +
-            "<h1>" + esc(h.headline) + "</h1>" +
-            '<p class="hero__intro">' + esc(h.intro) + "</p>" +
-            '<div class="hero__actions">' +
-              '<a class="btn btn--primary btn--lg" href="' + esc(h.primaryCta.href) + '">' +
-                esc(h.primaryCta.label) + "</a>" +
-              '<a class="btn btn--ghost btn--lg" href="' + esc(h.secondaryCta.href) + '">' +
-                esc(h.secondaryCta.label) + "</a>" +
-            "</div>" +
-            (h.kicker ? '<p class="hero__kicker">' + esc(h.kicker) + "</p>" : "") +
+            (h.headline ? "<h1>" + esc(h.headline) + "</h1>" : "") +
+            (h.intro ? '<p class="hero__intro">' + esc(h.intro) + "</p>" : "") +
           "</div>" +
         "</div>" +
       "</section>"
     );
   }
 
-  function buildSponsorsValue() {
-    var v = SITE.sponsorPage.value;
+  /* One flat grid, every tier together, no ranking and no captions. Tiles are
+     a fixed aspect ratio and the image is never stretched — max-width and
+     max-height with auto on both axes keeps every logo at its own
+     proportions, whatever shape the file is.
+
+     A logo links out ONLY if content.js gives it a real http(s) URL. A "#"
+     placeholder renders as a plain tile, because a dead link on a sponsor's
+     logo looks worse than no link. */
+  function buildSponsorsLogos() {
+    var all = [];
+    (SITE.sponsors.levels || []).forEach(function (lvl) {
+      lvl.items.forEach(function (it) { if (it.logo) { all.push(it); } });
+    });
+    if (!all.length) { return null; }
     return el(
-      '<section class="section">' +
+      '<section class="section" id="sponsors">' +
         '<div class="wrap">' +
-          '<div class="section__head section__head--center">' +
-            '<span class="eyebrow">' + esc(v.eyebrow) + "</span>" +
-            "<h2>" + esc(v.heading) + "</h2><p>" + esc(v.intro) + "</p>" +
-          "</div>" +
-          '<div class="grid grid--3">' +
-            v.items.map(function (i) {
-              return '<div class="card card--static">' +
-                       '<span class="card__icon">' + icon(i.icon) + "</span>" +
-                       "<h3>" + esc(i.title) + "</h3>" +
-                       "<p>" + esc(i.body) + "</p>" +
-                     "</div>";
+          '<div class="sponsorgrid">' +
+            all.map(function (it) {
+              var live = it.url && /^https?:\/\//i.test(it.url);
+              var img = '<img src="' + esc(it.logo) + '" alt="' + esc(it.name) + '" loading="lazy">';
+              return live
+                ? '<a class="sponsorgrid__item" href="' + esc(it.url) + '" ' +
+                  'target="_blank" rel="noopener noreferrer">' + img + "</a>"
+                : '<div class="sponsorgrid__item">' + img + "</div>";
             }).join("") +
           "</div>" +
         "</div>" +
@@ -701,198 +719,25 @@
     );
   }
 
-  function buildSponsorsImpact() {
-    var m = SITE.sponsorPage.impact;
+  function buildSponsorsInfo() {
+    var i = SITE.sponsorPage.info;
+    if (!i) { return null; }
     return el(
       '<section class="section section--wash">' +
-        '<div class="wrap">' +
-          '<div class="section__head section__head--center">' +
-            '<span class="eyebrow">' + esc(m.eyebrow) + "</span>" +
-            "<h2>" + esc(m.heading) + "</h2><p>" + esc(m.intro) + "</p>" +
-          "</div>" +
-          '<div class="impact">' +
-            '<ul class="ticks ticks--dark ticks--2col">' +
-              m.items.map(function (i) {
-                return "<li>" + icon("check", "icon icon--tick") + "<span>" + esc(i) + "</span></li>";
-              }).join("") +
-            "</ul>" +
-            sampleNote(m.note) +
-          "</div>" +
-        "</div>" +
-      "</section>"
-    );
-  }
-
-  // Packages + the demonstration disclosure, together so the notice can't be
-  // scrolled past without seeing the prices it applies to.
-  function buildSponsorsPackages() {
-    var p = SITE.sponsorPage.packages;
-    return el(
-      '<section class="section" id="packages">' +
-        '<div class="wrap">' +
-          '<div class="section__head section__head--center">' +
-            '<span class="eyebrow">' + esc(p.eyebrow) + "</span>" +
-            "<h2>" + esc(p.heading) + "</h2>" +
-          "</div>" +
-          '<div class="pkgnote">' + esc(SITE.sponsorPage.disclosure) + "</div>" +
-          '<div class="pkgs">' +
-            p.items.map(function (i) {
-              return '<div class="pkg' + (i.featured ? " pkg--featured" : "") + '">' +
-                       (i.badge ? '<span class="pkg__badge">' + esc(i.badge) + "</span>" : "") +
-                       '<div class="pkg__head">' +
-                         "<h3>" + esc(i.name) + "</h3>" +
-                         '<span class="pkg__amount">' + esc(i.amount) + "</span>" +
-                       "</div>" +
-                       '<p class="pkg__desc">' + esc(i.desc) + "</p>" +
-                       '<ul class="pkg__benefits">' +
-                         i.benefits.map(function (b) {
-                           return "<li>" + icon("check", "icon icon--tick") + "<span>" + esc(b) + "</span></li>";
-                         }).join("") +
-                       "</ul>" +
-                       '<a class="btn ' + (i.featured ? "btn--primary" : "btn--outline") +
-                         ' pkg__cta" href="contact.html#sponsorship">Start with ' + esc(i.name) + "</a>" +
-                     "</div>";
-            }).join("") +
-          "</div>" +
-        "</div>" +
-      "</section>"
-    );
-  }
-
-  function buildSponsorsRecognition() {
-    var r = SITE.sponsorPage.recognition;
-    return el(
-      '<section class="section section--wash">' +
-        '<div class="wrap">' +
-          '<div class="section__head section__head--center">' +
-            '<span class="eyebrow">' + esc(r.eyebrow) + "</span>" +
-            "<h2>" + esc(r.heading) + "</h2>" +
-          "</div>" +
-          '<ul class="recgrid">' +
-            r.items.map(function (i) {
-              return '<li class="recitem">' + icon("check", "icon icon--tick") + "<span>" + esc(i) + "</span></li>";
-            }).join("") +
-          "</ul>" +
-          sampleNote(r.note) +
-        "</div>" +
-      "</section>"
-    );
-  }
-
-  function buildSponsorsProcess() {
-    var p = SITE.sponsorPage.process;
-    return el(
-      '<section class="section" id="how-it-works">' +
-        '<div class="wrap">' +
-          '<div class="section__head section__head--center">' +
-            '<span class="eyebrow">' + esc(p.eyebrow) + "</span>" +
-            "<h2>" + esc(p.heading) + "</h2>" +
-          "</div>" +
-          '<ol class="steps">' +
-            p.items.map(function (s) {
-              return '<li class="step">' +
-                       '<span class="step__n">' + esc(String(s.n)) + "</span>" +
-                       '<div class="step__body"><h3>' + esc(s.title) + "</h3>" +
-                       "<p>" + esc(s.body) + "</p></div>" +
-                     "</li>";
-            }).join("") +
-          "</ol>" +
-        "</div>" +
-      "</section>"
-    );
-  }
-
-  // Replaces the fake form. Routes to Contact. No email shown.
-  function buildSponsorsStart() {
-    var s = SITE.sponsorPage.start;
-    return el(
-      '<section class="section section--purple" id="start">' +
         '<div class="wrap wrap--narrow">' +
           '<div class="section__head section__head--center">' +
-            '<span class="eyebrow">' + esc(s.eyebrow) + "</span>" +
-            "<h2>" + esc(s.heading) + "</h2><p>" + esc(s.intro) + "</p>" +
+            (i.heading ? "<h2>" + esc(i.heading) + "</h2>" : "") +
+            (i.body ? "<p>" + esc(i.body) + "</p>" : "") +
           "</div>" +
-          '<ul class="ticks">' +
-            s.bring.map(function (b) {
-              return "<li>" + icon("check", "icon icon--tick") + "<span>" + esc(b) + "</span></li>";
-            }).join("") +
-          "</ul>" +
-          '<p class="start__cta"><a class="btn btn--primary btn--lg" href="' + esc(s.cta.href) + '">' +
-            esc(s.cta.label) + "</a></p>" +
-          sampleNote(s.note) +
+          (i.cta
+            ? '<p class="infocta"><a class="btn btn--primary" href="' + esc(i.cta.href) + '">' +
+              esc(i.cta.label) + "</a></p>"
+            : "") +
         "</div>" +
       "</section>"
     );
   }
 
-  function buildSponsorsFaq() {
-    var f = SITE.sponsorPage.faq;
-    return el(
-      '<section class="section" id="faq">' +
-        '<div class="wrap wrap--narrow">' +
-          '<div class="section__head section__head--center">' +
-            '<span class="eyebrow">' + esc(f.eyebrow) + "</span>" +
-            "<h2>" + esc(f.heading) + "</h2>" +
-          "</div>" +
-          '<div class="faq">' +
-            f.items.map(function (i) {
-              return "<details class=\"faq__item\">" +
-                       "<summary><span>" + esc(i.q) + "</span></summary>" +
-                       '<div class="faq__a"><p>' + esc(i.a) + "</p></div>" +
-                     "</details>";
-            }).join("") +
-          "</div>" +
-        "</div>" +
-      "</section>"
-    );
-  }
-
-  function buildSponsorsCommunity() {
-    var c = SITE.sponsorPage.community;
-    return el(
-      '<section class="section section--wash" id="community-partners">' +
-        '<div class="wrap">' +
-          '<div class="section__head section__head--center">' +
-            '<span class="eyebrow">' + esc(c.eyebrow) + "</span>" +
-            "<h2>" + esc(c.heading) + "</h2><p>" + esc(c.intro) + "</p>" +
-          "</div>" +
-          '<div class="cpgrid">' +
-            c.items.map(function (i) {
-              return '<div class="cp">' +
-                       '<span class="cp__mark" aria-hidden="true">' +
-                         esc(i.name.split(" ").map(function (w) { return w.charAt(0); }).join("").slice(0, 2)) +
-                       "</span>" +
-                       '<span class="cp__name">' + esc(i.name) + "</span>" +
-                       '<span class="cp__level">' + esc(i.level) + "</span>" +
-                     "</div>";
-            }).join("") +
-          "</div>" +
-          sampleNote(c.note) +
-        "</div>" +
-      "</section>"
-    );
-  }
-
-  function buildSponsorsFinalCta() {
-    var c = SITE.sponsorPage.finalCta;
-    return el(
-      '<section class="volcta">' +
-        '<div class="wrap volcta__inner">' +
-          '<div class="volcta__body">' +
-            '<span class="eyebrow">' + esc(c.eyebrow) + "</span>" +
-            "<h2>" + esc(c.heading) + "</h2>" +
-            "<p>" + esc(c.body) + "</p>" +
-          "</div>" +
-          '<div class="volcta__actions">' +
-            '<a class="btn btn--primary btn--lg" href="' + esc(c.primaryCta.href) + '">' +
-              esc(c.primaryCta.label) + "</a>" +
-            '<a class="btn btn--ghost btn--lg" href="' + esc(c.secondaryCta.href) + '">' +
-              esc(c.secondaryCta.label) + "</a>" +
-          "</div>" +
-        "</div>" +
-      "</section>"
-    );
-  }
 
   /* ======================================================================
      PARENTS PAGE BUILDERS
@@ -1317,18 +1162,15 @@
       buildBoosterVolunteer,  // 5. Volunteer — #volunteer anchor lives here
     ],
 
-    // Brief's order, minus the fake form (routed to Contact instead).
+    /* SPONSORS — v2.1
+       --------------------------------------------------------------------
+       Reduced to a title, the logos, and a line saying more is coming.
+       Everything the board hadn't approved came out; see
+       js/_archive/removed-sections-v2.js. */
     sponsors: [
-      buildSponsorsHero,        //  1. Interior hero
-      buildSponsorsValue,       //  2. More than a logo
-      buildSponsorsImpact,      //  3. Your partnership at work
-      buildSponsorsPackages,    //  4. Packages + demo disclosure
-      buildSponsorsRecognition, //  5. How sponsors get seen
-      buildSponsorsProcess,     //  6. How it works
-      buildSponsorsStart,       //  7. Start a conversation (routes to Contact)
-      buildSponsorsFaq,         //  8. FAQ
-      buildSponsorsCommunity,   //  9. Community partners preview
-      buildSponsorsFinalCta,    // 10. Final CTA
+      buildSponsorsHero,  // 1. "Sponsors" + one sentence of thanks
+      buildSponsorsLogos, // 2. Approved logos, one flat grid, no ranking
+      buildSponsorsInfo,  // 3. More information soon + Contact button
     ],
 
     /* PARENTS — v2.0
