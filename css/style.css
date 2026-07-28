@@ -222,7 +222,25 @@ p + p { margin-top: var(--s-4); }
   }
   .nav[data-open="true"] { display: block; }
   .nav__list { flex-direction: column; align-items: stretch; gap: 0; padding: var(--s-2) var(--gutter) var(--s-4); }
-  .nav__link { padding: var(--s-4) 0; border-bottom: 1px solid rgba(255,255,255,.12); }
+
+  /* display:block matters. The links are inline by default, so a
+     border-bottom only spans the WIDTH OF THE WORD — which is why the
+     current-page underline showed up as a stub floating under one label
+     instead of a row divider. Block makes every divider span the full row. */
+  .nav__link {
+    display: block;
+    padding: var(--s-4) 0;
+    border-bottom: 1px solid rgba(255,255,255,.12);
+  }
+  .nav__list li:last-child .nav__link { border-bottom-color: transparent; }
+
+  /* On desktop the gold underline is the "you are here" marker. Stacked, it
+     reads as clutter next to the panel's own gold bottom edge, so the active
+     page is gold TEXT only and the divider stays neutral. */
+  .nav__link:hover,
+  .nav__link[aria-current="page"] { border-bottom-color: rgba(255,255,255,.12); }
+  .nav__list li:last-child .nav__link:hover,
+  .nav__list li:last-child .nav__link[aria-current="page"] { border-bottom-color: transparent; }
   .brand img { height: 44px; }
   .brand__text strong { font-size: 1.05rem; }
 }

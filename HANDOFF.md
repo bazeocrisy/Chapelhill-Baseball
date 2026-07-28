@@ -3,7 +3,16 @@
 End of session 4. Written for whoever picks this up next, including a future me
 with no memory of any of it.
 
-**Current build: v2.2.1 · July 27, 2026
+**Current build: v2.2.2 · July 27, 2026
+
+v2.2.2 — mobile menu dividers. `.nav__link` is inline by default, so its
+border-bottom only spanned the width of the word. On the stacked mobile menu
+that made the current-page gold underline look like a stub floating under one
+label. Added `display: block` inside the 920px breakpoint so dividers span the
+full row, and made the active page read as gold text only on mobile — the gold
+underline stays a desktop device. Desktop nav is unchanged.
+
+**v2.2.1 · July 27, 2026
 
 v2.2.1 — the school phone number on the Contact page was rendering with an
 envelope icon. Added a `phone` icon to ICONS in js/main.js and wired the tel

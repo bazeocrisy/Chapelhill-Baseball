@@ -1021,7 +1021,7 @@ const SITE = {
     // the footer instead — View Page Source on the live site and search for
     // "build" to confirm which version a browser actually served.
     // STILL BUMP `rev` EVERY TIME YOU PUSH.
-    rev:  "v2.2.1",
+    rev:  "v2.2.2",
     date: "July 27, 2026",
   },
 
