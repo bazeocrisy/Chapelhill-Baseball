@@ -67,7 +67,7 @@ body {
 }
 
 /* Type scale. Display face is condensed, so it can carry more size. */
-h1, h2, h3, .eyebrow, .btn, .nav__link, .strip__value, .stat__figure, .event__day {
+h1, h2, h3, .eyebrow, .btn, .nav__link {
   font-family: var(--font-display);
   text-transform: uppercase;
   letter-spacing: .015em;
@@ -96,10 +96,10 @@ p + p { margin-top: var(--s-4); }
    -------------------------------------------------------------------------- */
 .wrap { width: 100%; max-width: var(--max); margin-inline: auto; padding-inline: var(--gutter); }
 .section { padding-block: clamp(3.5rem, 7vw, var(--s-9)); }
-.section--wash   { background: var(--purple-wash); }
+.section--wash { background: var(--purple-wash); }
 .section--purple { background: var(--purple); }
 .section--purple h2, .section--purple h3 { color: var(--white); }
-.section--purple p  { color: rgba(255,255,255,.84); }
+.section--purple p { color: rgba(255,255,255,.84); }
 
 .section__head { max-width: 60ch; margin-bottom: var(--s-7); }
 .section__head--center { margin-inline: auto; text-align: center; }
@@ -146,8 +146,7 @@ p + p { margin-top: var(--s-4); }
 .btn--ghost:hover { background: var(--white); color: var(--purple-deep); border-color: var(--white); }
 .btn--outline { background: transparent; color: var(--purple); border-color: var(--purple); }
 .btn--outline:hover { background: var(--purple); color: var(--white); }
-.btn--dark { background: var(--purple-dark); color: var(--white); }
-.btn--dark:hover { background: var(--purple-deep); }
+
 .section--purple .btn--outline { color: var(--white); border-color: rgba(255,255,255,.6); }
 .section--purple .btn--outline:hover { background: var(--white); color: var(--purple-deep); }
 
@@ -216,10 +215,10 @@ p + p { margin-top: var(--s-4); }
 }
 .nav__bars { top: 21px; }
 .nav__bars::before { content: ""; top: -7px; left: 0; }
-.nav__bars::after  { content: ""; top: 7px;  left: 0; }
+.nav__bars::after { content: ""; top: 7px;  left: 0; }
 .nav__toggle.is-open .nav__bars { background: transparent; }
 .nav__toggle.is-open .nav__bars::before { transform: translateY(7px) rotate(45deg); }
-.nav__toggle.is-open .nav__bars::after  { transform: translateY(-7px) rotate(-45deg); }
+.nav__toggle.is-open .nav__bars::after { transform: translateY(-7px) rotate(-45deg); }
 
 @media (max-width: 920px) {
   .nav__toggle { display: block; }
@@ -319,63 +318,34 @@ p + p { margin-top: var(--s-4); }
 }
 
 /* --------------------------------------------------------------------------
-   8. SPONSOR STRIP — under the hero, seen every visit
-   -------------------------------------------------------------------------- */
-.sponsorstrip { background: var(--white); border-bottom: 1px solid var(--grey-200); }
-.sponsorstrip__inner { display: flex; align-items: center; gap: var(--s-4) var(--s-6); padding-block: var(--s-5); flex-wrap: wrap; }
-.sponsorstrip__label {
-  font-family: var(--font-display); text-transform: uppercase;
-  font-size: .72rem; letter-spacing: .18em; font-weight: 600;
-  color: var(--grey-500); flex: none;
-}
-.sponsorstrip__logos { display: flex; align-items: center; justify-content: space-between; gap: var(--s-4) var(--s-5); flex: 1 1 auto; flex-wrap: wrap; }
-.sponsorstrip__logos img {
-  height: 48px; width: auto;
-  opacity: .78; filter: grayscale(100%);
-  transition: opacity .15s ease, filter .15s ease;
-}
-.sponsorstrip__logos a:hover img { opacity: 1; filter: grayscale(0%); }
-.sponsorstrip__all { flex: none; font-size: .82rem; font-weight: 600; color: var(--purple-lift); white-space: nowrap; }
-.sponsorstrip__all::after { content: " →"; }
-.sponsorstrip__all:hover { text-decoration: underline; }
-@media (max-width: 900px) {
-  .sponsorstrip__inner { justify-content: center; }
-  .sponsorstrip__label { width: 100%; text-align: center; }
-  .sponsorstrip__logos { gap: var(--s-4); justify-content: center; }
-  .sponsorstrip__logos img { height: 36px; }
-  .sponsorstrip__all { width: 100%; text-align: center; }
-}
+   8. SPONSOR LOGO ROW — one row of logos, just above the footer
+   ------------------------------------------------------------------------
+   No heading, no tagline, no links, no copy. Logos sit on white with room
+   around them so the row reads as a credit line rather than an ad block.
 
-/* --------------------------------------------------------------------------
-   9. FEATURED BAR — the single most urgent item
+   The track is a flex row. Below 640px it scrolls sideways instead of
+   wrapping, so it stays ONE row at every width and can't push the page wide.
    -------------------------------------------------------------------------- */
-.featured { background: var(--accent); }
-.featured__inner { display: flex; flex-wrap: wrap; align-items: center; gap: var(--s-4) var(--s-6); padding-block: var(--s-5); }
-.featured__body { flex: 1 1 420px; }
-.featured__tag {
-  display: inline-block;
-  font-family: var(--font-display); text-transform: uppercase;
-  letter-spacing: .14em; font-size: .7rem; font-weight: 700;
-  background: rgba(28,12,44,.14); color: var(--purple-dark);
-  padding: .15rem .5rem; border-radius: 2px;
+.sponsorrow { background: var(--white); border-top: 1px solid var(--grey-200); }
+.sponsorrow__track {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: var(--s-5) var(--s-6); padding-block: var(--s-6);
 }
-.featured h2 { font-size: clamp(1.35rem, 2.2vw, 1.7rem); color: var(--purple-dark); margin-top: var(--s-2); }
-.featured p { color: rgba(28,12,44,.8); font-size: .95rem; margin-top: var(--s-1); max-width: 68ch; }
-@media (max-width: 640px) { .featured .btn { width: 100%; } }
-
-/* --------------------------------------------------------------------------
-   10. SEASON STRIP
-   -------------------------------------------------------------------------- */
-.strip { background: var(--purple-dark); }
-.strip__inner { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(180px, 100%), 1fr)); }
-.strip__cell { padding: var(--s-5) var(--gutter); border-right: 1px solid rgba(255,255,255,.12); }
-.strip__cell:last-child { border-right: 0; }
-.strip__label { font-size: .66rem; letter-spacing: .18em; text-transform: uppercase; color: var(--accent); font-weight: 600; }
-.strip__value { font-size: 1.75rem; font-weight: 700; line-height: 1.1; margin-top: var(--s-1); color: var(--white); }
-.strip__detail { font-size: .8rem; color: rgba(255,255,255,.6); margin-top: 2px; }
-@media (max-width: 560px) {
-  .strip__inner { grid-template-columns: 1fr 1fr; }
-  .strip__cell { border-bottom: 1px solid rgba(255,255,255,.12); }
+.sponsorrow__item { flex: 0 1 auto; display: grid; place-items: center; min-width: 0; }
+.sponsorrow__item img {
+  height: 52px; width: auto; max-width: 100%;
+  opacity: .85; transition: opacity .15s ease;
+}
+.sponsorrow__item img:hover { opacity: 1; }
+@media (max-width: 900px) { .sponsorrow__item img { height: 42px; } }
+@media (max-width: 640px) {
+  .sponsorrow__track {
+    justify-content: flex-start; gap: var(--s-5);
+    overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none;
+  }
+  .sponsorrow__track::-webkit-scrollbar { display: none; }
+  .sponsorrow__item { flex: 0 0 auto; }
+  .sponsorrow__item img { height: 36px; }
 }
 
 /* --------------------------------------------------------------------------
@@ -403,8 +373,6 @@ a.card:hover .card__more::after { margin-left: 3px; }
 /* --------------------------------------------------------------------------
    12. NEWS + EVENTS
    -------------------------------------------------------------------------- */
-.newsgrid { display: grid; gap: var(--s-7); grid-template-columns: 1fr; align-items: start; }
-@media (min-width: 940px) { .newsgrid { grid-template-columns: 1.55fr 1fr; gap: var(--s-8); } }
 
 .notices { display: grid; gap: var(--s-4); }
 .notice {
@@ -424,162 +392,29 @@ a.card:hover .card__more::after { margin-left: 3px; }
 .notice--pin .notice__tag { background: var(--accent); color: var(--purple-dark); }
 .notice__date { font-size: .74rem; color: var(--grey-500); letter-spacing: .04em; }
 .notice p { color: var(--grey-500); font-size: .93rem; margin-top: var(--s-1); line-height: 1.6; }
-.newscol__cta { margin-top: var(--s-5); }
-
-.eventcol {
-  background: var(--white); border: 1px solid var(--grey-200);
-  border-radius: var(--radius-lg); padding: var(--s-5);
-  box-shadow: var(--shadow-sm);
-}
-.eventcol__head { margin-bottom: var(--s-4); }
-.eventcol__head h2 { font-size: 1.6rem; margin-top: var(--s-1); }
-.events { display: grid; gap: var(--s-1); }
-.event { display: flex; align-items: flex-start; gap: var(--s-4); padding: var(--s-3) 0; border-bottom: 1px solid var(--grey-100); }
-.event:last-child { border-bottom: 0; }
-.event__date {
-  flex: none; width: 48px; text-align: center;
-  background: var(--purple-wash); border-radius: var(--radius);
-  padding: var(--s-2) 0; line-height: 1;
-}
-.event__mo {
-  display: block; font-family: var(--font-display); text-transform: uppercase;
-  font-size: .66rem; letter-spacing: .1em; font-weight: 600; color: var(--purple-lift);
-}
-.event__day { display: block; font-size: 1.3rem; font-weight: 700; color: var(--purple-deep); margin-top: 2px; }
-.event__body { display: flex; flex-direction: column; }
-.event__kind { font-size: .62rem; text-transform: uppercase; letter-spacing: .12em; font-weight: 700; color: var(--purple-lift); }
-.event__title { font-weight: 600; color: var(--grey-800); font-size: .95rem; line-height: 1.35; margin-top: 1px; }
-.event__detail { font-size: .82rem; color: var(--grey-500); }
-.eventcol__cta { display: inline-block; margin-top: var(--s-4); font-size: .85rem; font-weight: 600; color: var(--purple-lift); }
-.eventcol__cta:hover { text-decoration: underline; }
-
-/* --------------------------------------------------------------------------
-   13. COACH'S WELCOME
-   -------------------------------------------------------------------------- */
-.coachwrap { padding-block: clamp(3rem, 6vw, var(--s-8)); }
-.coach { max-width: 46rem; margin-inline: auto; text-align: center; }
-.coach h2 { margin-top: var(--s-1); }
-.coach blockquote { margin-top: var(--s-5); position: relative; }
-.coach blockquote p {
-  font-family: var(--font-display);
-  font-size: clamp(1.4rem, 2.6vw, 2rem); line-height: 1.3;
-  font-weight: 500; color: var(--purple-deep);
-  text-transform: none; letter-spacing: 0;
-}
-.coach blockquote p::before { content: "\201C"; }
-.coach blockquote p::after  { content: "\201D"; }
-.coach__body { margin-top: var(--s-5); color: var(--grey-500); max-width: 60ch; margin-inline: auto; }
-.coach__by { margin-top: var(--s-5); display: flex; flex-direction: column; gap: 1px; }
-.coach__by strong {
-  font-family: var(--font-display); text-transform: uppercase;
-  letter-spacing: .08em; color: var(--purple-deep); font-size: 1rem;
-}
-.coach__by span { font-size: .82rem; color: var(--grey-500); }
 
 /* --------------------------------------------------------------------------
    14. SPONSORS — the largest, most designed block on the page
    -------------------------------------------------------------------------- */
-.sponsors { background: var(--white); }
+
 .sponsors__thanks {
   max-width: 64ch; margin: 0 auto var(--s-7);
   text-align: center; font-size: 1.08rem; line-height: 1.75; color: var(--grey-600);
 }
-.tier { margin-bottom: var(--s-7); }
-.tier:last-of-type { margin-bottom: 0; }
-.tier__head { margin-bottom: var(--s-4); }
-.tier__blurb { font-size: .84rem; color: var(--grey-500); margin-top: 2px; }
-
-.sponsor-grid { display: grid; gap: var(--s-4); min-width: 0; }
-.sponsor {
-  background: var(--white); border: 1px solid var(--grey-200);
-  border-radius: var(--radius-lg);
-  display: grid; place-items: center; padding: var(--s-5);
-  min-width: 0;   /* grid items default to min-width:auto, which lets an SVG's
-                     intrinsic width push the track wider than the viewport */
-  overflow: hidden;
-  transition: box-shadow .18s ease, transform .18s ease, border-color .18s ease;
-}
-.sponsor:hover { box-shadow: var(--shadow-lg); transform: translateY(-4px); }
-.sponsor img { max-width: 100%; max-height: 100%; width: auto; height: auto; }
-.sponsor__name { font-family: var(--font-display); text-transform: uppercase; font-size: 1.1rem; color: var(--purple-deep); }
-.sponsor--empty { border: 1px dashed var(--grey-300); background: transparent; color: var(--grey-500); font-size: .72rem; letter-spacing: .06em; text-transform: uppercase; }
 
 /* Tier hierarchy — Premier visibly dominates. This is the upsell: if the
    tiers look alike, there's no reason for a business to pay more.
    min() in the minmax keeps the large tiles from overflowing narrow phones. */
-.tier--lg .tier__head { border-bottom: 3px solid var(--purple); padding-bottom: var(--s-3); }
-.tier--lg .tier__head h3 { font-size: 1.9rem; }
-.tier--lg .sponsor-grid { grid-template-columns: repeat(auto-fit, minmax(min(320px, 100%), 1fr)); gap: var(--s-5); }
-.tier--lg .sponsor { aspect-ratio: 5 / 2; padding: var(--s-6); border: 2px solid var(--purple); box-shadow: var(--shadow); }
-
-.tier--md .tier__head { border-bottom: 2px solid var(--purple-lift); padding-bottom: var(--s-2); }
-.tier--md .tier__head h3 { font-size: 1.35rem; }
-.tier--md .sponsor-grid { grid-template-columns: repeat(auto-fit, minmax(min(210px, 100%), 1fr)); }
-.tier--md .sponsor { aspect-ratio: 3 / 2; }
-
-.tier--sm .tier__head { border-bottom: 1px solid var(--grey-300); padding-bottom: var(--s-2); }
-.tier--sm .tier__head h3 { font-size: 1.05rem; }
-.tier--sm .sponsor-grid { grid-template-columns: repeat(auto-fill, minmax(min(150px, 100%), 1fr)); gap: var(--s-3); }
-.tier--sm .sponsor { aspect-ratio: 3 / 2; padding: var(--s-3); }
-
-.sponsors__foot {
-  display: flex; flex-wrap: wrap; gap: var(--s-3);
-  justify-content: center; align-items: center;
-  margin-top: var(--s-7); padding-top: var(--s-6);
-  border-top: 1px solid var(--grey-200);
-}
-.sponsors .samplenote { text-align: center; }
-@media (max-width: 560px) {
-  .tier--lg .sponsor-grid { grid-template-columns: 1fr; }
-  .sponsors__foot .btn { width: 100%; }
-}
 
 /* --------------------------------------------------------------------------
    15. WHY SPONSOR
    -------------------------------------------------------------------------- */
-.sponsorvalue { display: grid; gap: var(--s-7); grid-template-columns: 1fr; align-items: center; }
-@media (min-width: 900px) { .sponsorvalue { grid-template-columns: 1.4fr 1fr; gap: var(--s-8); } }
-.sponsorvalue__lede h2 { margin-top: var(--s-1); }
-.sponsorvalue__lede > p { margin-top: var(--s-4); font-size: 1.05rem; max-width: 52ch; }
-.sponsorvalue__cta { margin-top: var(--s-6); }
 
 .ticks { display: grid; gap: var(--s-3); margin-top: var(--s-5); }
 .ticks li { display: flex; align-items: flex-start; gap: var(--s-3); color: rgba(255,255,255,.9); font-size: .96rem; line-height: 1.5; }
 .icon--tick { color: var(--accent); margin-top: 3px; width: 18px; height: 18px; }
 .ticks--dark li { color: var(--grey-600); }
 .ticks--dark .icon--tick { color: var(--purple); }
-
-.sponsorvalue__stats { display: grid; gap: var(--s-4); }
-.stat {
-  background: rgba(255,255,255,.07);
-  border: 1px solid rgba(255,255,255,.16);
-  border-radius: var(--radius-lg);
-  padding: var(--s-5); text-align: center;
-}
-.stat__figure { display: block; font-size: 3rem; font-weight: 700; line-height: 1; color: var(--accent); }
-.stat__label { display: block; font-size: .84rem; color: rgba(255,255,255,.72); margin-top: var(--s-2); letter-spacing: .04em; }
-
-/* --------------------------------------------------------------------------
-   16. BOOSTER + SPOTLIGHT
-   -------------------------------------------------------------------------- */
-.boostergrid { display: grid; gap: var(--s-7); grid-template-columns: 1fr; align-items: start; }
-@media (min-width: 900px) { .boostergrid { grid-template-columns: 1.35fr 1fr; gap: var(--s-8); } }
-.boostergrid h2 { margin-top: var(--s-1); }
-.boostergrid__body { margin-top: var(--s-4); }
-
-.spotlight {
-  background: var(--white); border: 1px solid var(--grey-200);
-  border-top: 4px solid var(--accent);
-  border-radius: var(--radius-lg); padding: var(--s-6);
-  box-shadow: var(--shadow-sm);
-}
-.spotlight__icon { display: block; color: var(--accent); margin-bottom: var(--s-3); }
-.spotlight__icon .icon { width: 28px; height: 28px; }
-.spotlight h3 { margin-top: var(--s-1); font-size: 1.35rem; }
-.spotlight p { margin-top: var(--s-3); font-size: .94rem; color: var(--grey-500); line-height: 1.65; }
-.spotlight__cta { display: inline-block; margin-top: var(--s-4); font-weight: 600; color: var(--purple-lift); font-size: .9rem; }
-.spotlight__cta::after { content: " →"; }
-.spotlight__cta:hover { text-decoration: underline; }
 
 /* --------------------------------------------------------------------------
    17. CONTACT
@@ -623,43 +458,26 @@ a.card:hover .card__more::after { margin-left: 3px; }
 /* --------------------------------------------------------------------------
    19. FOOTER
    -------------------------------------------------------------------------- */
-.footer { background: var(--purple-dark); color: rgba(255,255,255,.68); padding: var(--s-8) 0 var(--s-6); font-size: .88rem; }
-.footer h4 { font-family: var(--font-display); text-transform: uppercase; color: var(--white); letter-spacing: .08em; margin-bottom: var(--s-3); font-size: .95rem; }
-.footer__grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(190px, 100%), 1fr)); gap: var(--s-6); }
-.footer__brand img { height: 54px; width: auto; margin-bottom: var(--s-3); }
-.footer__brand .brand__mark { margin-bottom: var(--s-3); }
-.footer li + li { margin-top: var(--s-2); }
+/* v2.0 — the footer is now a single row: mark + program name on the left,
+   copyright + revision stamp on the right. The four-column grid (Pages /
+   Official school links / school address) and the disclaimer panel were both
+   removed. .footer__base gets its flex behaviour from section 33 below. */
+.footer { background: var(--purple-dark); color: rgba(255,255,255,.68); padding: var(--s-6) 0; font-size: .88rem; }
 .footer a { transition: color .15s ease; }
 .footer a:hover { color: var(--accent); }
-.footer__disclaimer {
-  margin-top: var(--s-7); padding: var(--s-4) var(--s-5);
-  border: 1px solid rgba(255,255,255,.16); border-radius: var(--radius);
-  background: rgba(0,0,0,.2);
-  font-size: .82rem; line-height: 1.65; color: rgba(255,255,255,.78);
-}
-.footer__disclaimer a { color: var(--accent); font-weight: 600; text-decoration: underline; }
-.footer__base { margin-top: var(--s-5); padding-top: var(--s-4); border-top: 1px solid rgba(255,255,255,.1); font-size: .78rem; }
-
-
-/* --------------------------------------------------------------------------
-   20. HERO ALERT — the urgent item, above the fold
-   Replaced a standalone bar that sat below the fold. A parent shouldn't have
-   to scroll to learn a deadline is coming.
-   -------------------------------------------------------------------------- */
-.hero__alert {
-  display: inline-flex; align-items: center; flex-wrap: wrap; gap: var(--s-3);
-  margin-top: var(--s-5);
-  background: rgba(232,179,60,.14);
-  border: 1px solid rgba(232,179,60,.5);
-  border-radius: var(--radius);
-  padding: var(--s-3) var(--s-4);
-  color: #FFF0CE; font-size: .92rem; font-weight: 500;
-}
-.hero__alert-label {
+.footer__brand { display: flex; align-items: center; gap: var(--s-3); }
+.footer__brand img { height: 40px; width: auto; }
+.footer__brand .brand__mark { margin: 0; }
+.footer__brand span {
   font-family: var(--font-display); text-transform: uppercase;
-  font-size: .66rem; font-weight: 700; letter-spacing: .12em;
-  background: var(--accent); color: var(--purple-dark);
-  padding: .12rem .45rem; border-radius: 2px;
+  letter-spacing: .06em; font-size: 1.05rem; color: var(--white);
+}
+.footer__legal { text-align: right; }
+.footer__legal p { margin: 0; font-size: .78rem; }
+@media (max-width: 560px) {
+  .footer__base { justify-content: center; text-align: center; }
+  .footer__brand { justify-content: center; }
+  .footer__legal { text-align: center; }
 }
 
 /* --------------------------------------------------------------------------
@@ -670,7 +488,6 @@ a.card:hover .card__more::after { margin-left: 3px; }
   grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr));
 }
 .notices--grid .notice { border-radius: var(--radius-lg); border-left-width: 4px; }
-.newscol__cta { margin-top: var(--s-6); text-align: center; }
 
 /* --------------------------------------------------------------------------
    22. SPONSOR IMPACT — proof, not thanks
@@ -687,38 +504,15 @@ a.card:hover .card__more::after { margin-left: 3px; }
   text-align: center; font-size: 1.15rem; margin-bottom: var(--s-5);
   color: var(--purple-deep);
 }
-.impact__list {
-  display: grid; gap: var(--s-4);
-  grid-template-columns: repeat(auto-fit, minmax(min(220px, 100%), 1fr));
-}
-.impact__item { display: flex; align-items: flex-start; gap: var(--s-3); }
-.impact__item .icon--tick { color: var(--purple); margin-top: 4px; }
-.impact__item span { display: flex; flex-direction: column; }
-.impact__item strong { color: var(--grey-800); font-size: .96rem; line-height: 1.35; }
-.impact__item em {
-  font-style: normal; font-size: .78rem; color: var(--purple-lift);
-  letter-spacing: .04em; margin-top: 1px;
-}
+
 .impact .samplenote { text-align: center; }
 
 /* --------------------------------------------------------------------------
    23. SPONSOR TILES — color restored, Premier gets a line of its own
    The old grayscale filter drained the color out of logos businesses paid for.
    -------------------------------------------------------------------------- */
-.sponsor__mark { display: grid; place-items: center; width: 100%; min-width: 0; }
-.sponsor__mark img { max-width: 100%; max-height: 100%; width: auto; height: auto; }
-.sponsor__note {
-  display: block; margin-top: var(--s-3);
-  font-size: .78rem; color: var(--grey-500); text-align: center; line-height: 1.4;
-}
-.tier--lg .sponsor { flex-direction: column; }
-.tier--lg .sponsor__note { font-size: .84rem; color: var(--purple-lift); font-weight: 500; }
-.sponsor--link { cursor: pointer; }
-.sponsor--link:hover { border-color: var(--purple-lift); }
 
 /* Strip logos: color at rest now, not grayscale. */
-.sponsorstrip__logos img { opacity: .95; filter: none; }
-.sponsorstrip__logos a:hover img { opacity: 1; transform: translateY(-1px); }
 
 /* --------------------------------------------------------------------------
    24. MOBILE DENSITY
@@ -747,20 +541,20 @@ a.card:hover .card__more::after { margin-left: 3px; }
 
   /* Sponsors: the big one. Was 3,347px on mobile. */
   .sponsors__thanks { font-size: .95rem; margin-bottom: var(--s-5); }
-  .tier { margin-bottom: var(--s-5); }
-  .tier--lg .sponsor-grid { grid-template-columns: 1fr; gap: var(--s-3); }
-  .tier--lg .sponsor { aspect-ratio: 2 / 1; padding: var(--s-4); }
-  .tier--lg .tier__head h3 { font-size: 1.4rem; }
-  .tier--md .sponsor-grid { grid-template-columns: 1fr 1fr; gap: var(--s-3); }
-  .tier--md .sponsor { padding: var(--s-3); }
-  .tier--sm .sponsor-grid { grid-template-columns: 1fr 1fr 1fr; gap: var(--s-2); }
-  .tier--sm .sponsor { padding: var(--s-2); }
+  
+  
+  
+  
+  
+  
+  
+  
 
   /* Impact list: 2 across. */
   .impact { padding: var(--s-4); margin-bottom: var(--s-5); }
-  .impact__list { grid-template-columns: 1fr 1fr; gap: var(--s-3); }
-  .impact__item strong { font-size: .85rem; }
-  .impact__item em { font-size: .7rem; }
+  
+  
+  
 
   /* News: cards get tighter. */
   .notices--grid { gap: var(--s-3); }
@@ -768,23 +562,23 @@ a.card:hover .card__more::after { margin-left: 3px; }
   .notice p { font-size: .86rem; }
 
   /* Stats: 3 across instead of stacked. */
-  .sponsorvalue__stats { grid-template-columns: 1fr 1fr 1fr; gap: var(--s-2); }
-  .stat { padding: var(--s-3) var(--s-2); }
-  .stat__figure { font-size: 1.75rem; }
-  .stat__label { font-size: .68rem; line-height: 1.3; }
+  
+  
+  
+  
 
   /* Season strip stays 2x2 but tighter. */
-  .strip__cell { padding: var(--s-4) var(--s-3); }
-  .strip__value { font-size: 1.4rem; }
+  
+  
 
   /* Footer: 2 across. */
   .footer { padding: var(--s-6) 0 var(--s-5); }
-  .footer__grid { grid-template-columns: 1fr 1fr; gap: var(--s-5); }
+  
 }
 
 @media (max-width: 400px) {
   /* Very narrow: Community Partners back to 2 across so logos stay legible. */
-  .tier--sm .sponsor-grid { grid-template-columns: 1fr 1fr; }
+  
 }
 
 /* --------------------------------------------------------------------------
@@ -799,64 +593,9 @@ a.card:hover .card__more::after { margin-left: 3px; }
 .contact-card__pending .icon { width: 16px; height: 16px; opacity: .6; }
 
 /* --------------------------------------------------------------------------
-   26. PROGRAM SNAPSHOT — where the program stands right now
-   Scoreboard language: big figures, small labels, dark ground.
-   -------------------------------------------------------------------------- */
-.snapshot { background: var(--purple-deep); padding-block: var(--s-7); }
-.snapshot__head { text-align: center; margin-bottom: var(--s-5); }
-.snapshot__head h2 { color: var(--white); font-size: clamp(1.5rem, 2.6vw, 2rem); margin-top: var(--s-1); }
-.snapshot__head .eyebrow { color: var(--accent); }
-.snapshot__grid {
-  display: grid; gap: var(--s-3);
-  grid-template-columns: repeat(auto-fit, minmax(min(160px, 100%), 1fr));
-}
-.snap {
-  background: rgba(255,255,255,.06);
-  border: 1px solid rgba(255,255,255,.14);
-  border-radius: var(--radius-lg);
-  padding: var(--s-5) var(--s-3);
-  text-align: center; display: flex; flex-direction: column; gap: 2px;
-}
-.snap__value {
-  font-family: var(--font-display); font-size: 2.4rem; font-weight: 700;
-  line-height: 1; color: var(--accent);
-}
-.snap__label {
-  font-family: var(--font-display); text-transform: uppercase;
-  font-size: .74rem; letter-spacing: .14em; font-weight: 600;
-  color: var(--white); margin-top: var(--s-2);
-}
-.snap__detail { font-size: .74rem; color: rgba(255,255,255,.55); }
-
-/* --------------------------------------------------------------------------
-   27. PROGRAM VALUES
-   Numbered because these are a list a coach would recite in order, not a
-   decorative sequence.
-   -------------------------------------------------------------------------- */
-.valuelist {
-  display: grid; gap: var(--s-4);
-  grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr));
-  counter-reset: v;
-}
-.value { display: flex; gap: var(--s-4); align-items: flex-start; }
-.value__num {
-  font-family: var(--font-display); font-size: 1.5rem; font-weight: 700;
-  color: var(--grey-300); line-height: 1; flex: none; width: 2rem;
-}
-.value__body { display: flex; flex-direction: column; gap: 2px; }
-.value__body strong {
-  font-family: var(--font-display); text-transform: uppercase;
-  font-size: 1.15rem; letter-spacing: .03em; color: var(--purple-deep);
-}
-.value__body span { font-size: .92rem; color: var(--grey-500); line-height: 1.6; }
-
-/* --------------------------------------------------------------------------
    28. PLAYER DEVELOPMENT
    -------------------------------------------------------------------------- */
-.devgrid { display: grid; gap: var(--s-7); grid-template-columns: 1fr; align-items: start; }
-@media (min-width: 920px) { .devgrid { grid-template-columns: 1.5fr 1fr; gap: var(--s-8); } }
-.devgrid h2 { margin-top: var(--s-1); }
-.devgrid__intro { margin-top: var(--s-3); font-size: 1.05rem; max-width: 54ch; }
+
 .devpoints { display: grid; gap: var(--s-4); margin-top: var(--s-6); }
 .devpoint { display: flex; gap: var(--s-4); align-items: flex-start; }
 .icon--dev { color: var(--purple); margin-top: 3px; width: 20px; height: 20px; }
@@ -865,27 +604,6 @@ a.card:hover .card__more::after { margin-left: 3px; }
   font-size: 1rem; letter-spacing: .03em; color: var(--purple-deep);
 }
 .devpoint p { font-size: .9rem; color: var(--grey-500); margin-top: 1px; line-height: 1.55; }
-
-.alumni {
-  background: var(--white); border: 1px solid var(--grey-200);
-  border-top: 4px solid var(--purple);
-  border-radius: var(--radius-lg); padding: var(--s-5);
-  box-shadow: var(--shadow-sm);
-}
-.alumni__icon { display: block; color: var(--purple); margin-bottom: var(--s-3); }
-.alumni__icon .icon { width: 26px; height: 26px; }
-.alumni h3 { font-size: 1.1rem; margin-bottom: var(--s-4); }
-.alumni__list { display: grid; gap: var(--s-3); }
-.alumni__list li {
-  display: flex; justify-content: space-between; align-items: baseline; gap: var(--s-3);
-  padding-bottom: var(--s-3); border-bottom: 1px solid var(--grey-100);
-}
-.alumni__list li:last-child { border-bottom: 0; padding-bottom: 0; }
-.alumni__list strong {
-  font-family: var(--font-display); text-transform: uppercase;
-  font-size: .92rem; color: var(--purple-deep); letter-spacing: .04em;
-}
-.alumni__list span { font-size: .82rem; color: var(--grey-500); text-align: right; }
 
 /* --------------------------------------------------------------------------
    29. VOLUNTEER CTA — the ask for everyone who can't sponsor
@@ -910,20 +628,20 @@ a.card:hover .card__more::after { margin-left: 3px; }
    30. MOBILE — new sections
    -------------------------------------------------------------------------- */
 @media (max-width: 700px) {
-  .snapshot { padding-block: var(--s-6); }
-  .snapshot__grid { grid-template-columns: 1fr 1fr; gap: var(--s-2); }
-  .snap { padding: var(--s-4) var(--s-2); }
-  .snap__value { font-size: 1.9rem; }
-  .snap__label { font-size: .66rem; }
+  
+  
+  
+  
+  
 
-  .valuelist { gap: var(--s-3); }
-  .value__num { font-size: 1.2rem; width: 1.5rem; }
-  .value__body strong { font-size: 1rem; }
-  .value__body span { font-size: .85rem; }
+  
+  
+  
+  
 
   .devpoints { gap: var(--s-3); margin-top: var(--s-5); }
   .devpoint p { font-size: .85rem; }
-  .alumni { padding: var(--s-4); }
+  
 
   .volcta { padding-block: var(--s-6); }
 }
@@ -935,28 +653,24 @@ a.card:hover .card__more::after { margin-left: 3px; }
    -------------------------------------------------------------------------- */
 @media (max-width: 700px) {
   /* Premier keeps its prominence but stops being a billboard. */
-  .tier--lg .sponsor { aspect-ratio: 5 / 2; padding: var(--s-3); }
-  .tier--lg .sponsor__note { font-size: .74rem; margin-top: var(--s-2); }
-  .tier--lg .tier__head h3 { font-size: 1.25rem; }
+  
+  
+  
 
   /* Gold and Community pack tighter. */
-  .tier--md .sponsor-grid { gap: var(--s-2); }
-  .tier--md .sponsor { aspect-ratio: 2 / 1; padding: var(--s-2); }
-  .tier--sm .sponsor-grid { grid-template-columns: 1fr 1fr 1fr; gap: var(--s-2); }
-  .tier--sm .sponsor { aspect-ratio: 3 / 2; padding: var(--s-1); }
-  .tier { margin-bottom: var(--s-4); }
-  .tier__blurb { font-size: .75rem; line-height: 1.4; }
+  
+  
+  
+  
+  
+  
 
   .sponsors__thanks { font-size: .9rem; line-height: 1.6; margin-bottom: var(--s-4); }
-  .sponsors__foot { margin-top: var(--s-5); padding-top: var(--s-4); }
+  
 
   /* Impact: 2-up, tight. */
   .impact { padding: var(--s-3); }
   .impact__head { font-size: 1rem; margin-bottom: var(--s-3); }
-}
-
-@media (max-width: 400px) {
-  .tier--sm .sponsor-grid { grid-template-columns: 1fr 1fr; }
 }
 
 /* --------------------------------------------------------------------------
@@ -964,7 +678,7 @@ a.card:hover .card__more::after { margin-left: 3px; }
    Sits directly above the volunteer ask, so the story and the request
    reinforce each other.
    -------------------------------------------------------------------------- */
-.spotwrap { padding-block: clamp(2.5rem, 5vw, var(--s-7)); }
+
 .spot { max-width: 44rem; margin-inline: auto; text-align: center; }
 .spot__icon { display: inline-block; color: var(--accent); margin-bottom: var(--s-2); }
 .spot__icon .icon { width: 26px; height: 26px; }
@@ -1083,7 +797,7 @@ a.card:hover .card__more::after { margin-left: 3px; }
 .preview__rules { display: flex; flex-direction: column; gap: 3px; margin-top: 2px; }
 .preview__rules i { display: block; height: 1px; background: var(--grey-200); }
 .preview__rules i:nth-child(even) { width: 78%; }
-.preview__rules i:nth-child(3n)   { width: 62%; }
+.preview__rules i:nth-child(3n) { width: 62%; }
 
 .preview__key {
   display: grid; gap: var(--s-2);
@@ -1297,13 +1011,27 @@ a.card:hover .card__more::after { margin-left: 3px; }
 /* --------------------------------------------------------------------------
    36. PARENTS PAGE
    ------------------------------------------------------------------------
-   Two new components:
+   Components:
+     .schedulebtns — the two MaxPreps buttons. Side by side with room to
+                 breathe, stacked full-width once there isn't room for two.
+                 The rule loops, so a third button needs no CSS change.
      .datelist — the four dates with room for prose the homepage strip can't
                  carry. Same data, richer rendering.
      .feegrid  — the fee facts, built to look finished while the numbers are
                  still pending. A "Pending confirmation" chip reads as a
                  decision; an empty box reads as a bug.
    -------------------------------------------------------------------------- */
+
+/* --- Schedule buttons ---------------------------------------------------- */
+.schedulebtns {
+  display: flex; flex-wrap: wrap; justify-content: center;
+  gap: var(--s-4); margin-top: var(--s-6);
+}
+.schedulebtns .btn { flex: 0 1 auto; text-align: center; }
+@media (max-width: 560px) {
+  .schedulebtns { gap: var(--s-3); margin-top: var(--s-5); }
+  .schedulebtns .btn { flex: 1 1 100%; }
+}
 
 /* --- Dates --------------------------------------------------------------- */
 .datelist { display: grid; gap: var(--s-3); }
@@ -1456,71 +1184,8 @@ a.card:hover .card__more::after { margin-left: 3px; }
 /* --------------------------------------------------------------------------
    HOMEPAGE REVISION — hero split panel, sponsor card grid, Parent Hub
    -------------------------------------------------------------------------- */
-.hero__inner--split { display: grid; grid-template-columns: 1.6fr 1fr; gap: var(--s-6); align-items: start; }
-.hero__panel {
-  background: rgba(255,255,255,.07); border: 1px solid rgba(255,255,255,.15);
-  border-radius: var(--radius-lg); padding: var(--s-5);
-  max-width: 300px; margin-left: auto; margin-top: 0;
-  backdrop-filter: blur(2px);
-}
-.hero__panel-eyebrow {
-  font-family: var(--font-display); text-transform: uppercase;
-  font-size: .7rem; font-weight: 600; letter-spacing: .1em; color: var(--accent);
-}
-.hero__panel h3 { color: var(--white); font-size: 1.1rem; margin: var(--s-2) 0 var(--s-4); line-height: 1.3; }
-.hero__panel-list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: var(--s-3); }
-.hero__panel-list li { display: flex; gap: var(--s-2); align-items: flex-start; }
-.hero__panel-list .icon { width: 15px; height: 15px; color: var(--accent); margin-top: 3px; flex: none; }
-.hero__panel-list span { color: rgba(255,255,255,.9); font-size: .85rem; }
-.hero__panel-cta {
-  display: inline-block; margin-top: var(--s-4); color: var(--accent); font-weight: 700;
-  font-family: var(--font-display); font-size: .85rem; border-bottom: 1.5px solid var(--accent); padding-bottom: 2px;
-}
-@media (max-width: 900px) {
-  .hero__inner--split { grid-template-columns: 1fr; }
-  .hero__panel { max-width: 100%; margin: var(--s-4) 0 0; }
-}
 
-.sponsorstrip__head { display: flex; align-items: baseline; gap: var(--s-4); flex-wrap: wrap; padding-top: var(--s-5); margin-bottom: var(--s-4); }
-.sponsorstrip__tagline { font-size: 1.2rem; margin: var(--s-1) 0 0; }
-.sponsorstrip__all { margin-left: auto; }
-.sponsorstrip__cardgrid { display: grid; grid-template-columns: repeat(6, 1fr); gap: var(--s-4); padding-bottom: var(--s-5); }
-.sponsorstrip__card {
-  background: var(--white); border: 1px solid var(--grey-200); border-top: 4px solid var(--purple);
-  border-radius: var(--radius); padding: var(--s-5) var(--s-3);
-  display: flex; align-items: center; justify-content: center; min-height: 120px;
-  transition: transform .15s ease, box-shadow .15s ease;
-}
-.sponsorstrip__card:hover { transform: translateY(-3px); box-shadow: var(--shadow); }
-.sponsorstrip__card img { max-height: 64px; max-width: 100%; }
-.sponsorstrip__card--accent { border-top-color: var(--accent); }
-.sponsorstrip__card--purple-lift { border-top-color: var(--purple-lift); }
-@media (max-width: 900px) { .sponsorstrip__cardgrid { grid-template-columns: repeat(3, 1fr); } }
-@media (max-width: 560px) { .sponsorstrip__cardgrid { grid-template-columns: repeat(2, 1fr); } }
-
-.parenthub {
-  background: var(--white); border: 1px solid var(--grey-200); border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-lg); padding: var(--s-6) var(--s-6);
-}
-.parenthub__head { display: flex; align-items: flex-start; justify-content: space-between; flex-wrap: wrap; gap: var(--s-3); margin-bottom: var(--s-5); }
-.parenthub__badge {
-  display: inline-flex; align-items: center; gap: var(--s-2);
-  background: var(--purple-wash); border: 1px solid rgba(74,32,114,.15); border-radius: 20px;
-  padding: var(--s-2) var(--s-3); font-size: .82rem; color: var(--purple-deep); white-space: nowrap;
-}
-.parenthub__dot { width: 8px; height: 8px; border-radius: 50%; background: #2e9e5b; display: inline-block; animation: ch-pulse 2s ease-in-out infinite; }
 @keyframes ch-pulse { 0%, 100% { opacity: 1; } 50% { opacity: .35; } }
-@media (prefers-reduced-motion: reduce) { .parenthub__dot { animation: none; } }
-.parenthub__dates {
-  display: grid; grid-template-columns: repeat(4, 1fr); border: 1px solid var(--grey-200);
-  border-radius: var(--radius); overflow: hidden; margin-bottom: var(--s-5);
-}
-.parenthub__date { padding: var(--s-4); border-right: 1px solid var(--grey-200); }
-.parenthub__date:last-child { border-right: 0; }
-.parenthub__date-label { font-size: .78rem; color: var(--grey-500); margin-bottom: var(--s-1); }
-.parenthub__date-value { font-family: var(--font-display); font-weight: 700; font-size: 1.6rem; color: var(--purple); }
-.parenthub__date-detail { font-size: .78rem; color: var(--grey-400); margin-top: 2px; }
-@media (max-width: 700px) { .parenthub__dates { grid-template-columns: 1fr 1fr; } .parenthub__date:nth-child(2) { border-right: 0; } }
 
 .pkg__badge {
   position: absolute; top: 0; right: var(--s-5);

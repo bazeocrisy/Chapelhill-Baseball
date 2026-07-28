@@ -69,21 +69,22 @@ const SITE = {
   /* ------------------------------------------------------------------------
      3. HERO
   ---------------------------------------------------------------------------*/
+  /* THE HOMEPAGE HERO IS NOW THESE THREE LINES.
+
+     The paragraph, the two buttons, and the deadline banner were removed in
+     v2.0. When the Booster Club sends new hero messaging, it goes here — the
+     three fields below are the whole hero, and any one of them can be set to
+     "" to hide that line without leaving a gap:
+
+         eyebrow   small line above the name
+         headline  the big line
+         tagline   small line below the name
+
+     Nothing in js/main.js or css/style.css needs to change to update them. */
   hero: {
     eyebrow:  "Chapel Hill High School · Douglasville, Georgia",
     headline: "Panther Baseball",
     tagline:  "GHSA Class 6A · Region 2",
-    intro:    "Everything a Panther family needs for the season, in one place. Forms, dates, meetings, and news you can trust to be current.",
-    primaryCta:   { label: "Get the Physical Form", href: "physical-forms.html" },
-    secondaryCta: { label: "Become a Sponsor",   href: "#sponsors" },
-
-    // The one urgent thing, surfaced IN the hero so a parent sees it without
-    // scrolling. Set `show: false` when nothing is urgent.
-    alert: {
-      show:  true,
-      label: "Deadline",
-      text:  "Physical packets are due August 1. No physical on file, no workout.",
-    },
 
     // Real photo of the team on the field, supplied by the client.
     image: "assets/img/panthers-field.jpg",
@@ -741,12 +742,32 @@ const SITE = {
      go stale.
   ---------------------------------------------------------------------------*/
   parentsPage: {
+    // v2.0: the intro paragraph and the two buttons were removed. Add
+    // `intro`, `primaryCta`, or `secondaryCta` back here and they reappear —
+    // js/main.js renders whichever of them exists.
     hero: {
       eyebrow:  "For parents",
       headline: "Parent information",
-      intro:    "Meetings, dates, paperwork, and the questions we get every August. If you're new, start with the physical form and the parent meeting.",
-      primaryCta:   { label: "Physical forms", href: "physical-forms.html" },
-      secondaryCta: { label: "Ask a question", href: "contact.html" },
+    },
+
+    /* SCHEDULE — the two MaxPreps links.
+       ---------------------------------------------------------------------
+       These are the season-agnostic MaxPreps URLs. MaxPreps forwards them to
+       whatever the current season is, so THERE IS NOTHING TO UPDATE between
+       seasons. Do not paste in a URL with a year in it — those go stale.
+
+       Both open in a new tab. To add a third button, copy one of the blocks
+       below and change the label and href. */
+    schedule: {
+      eyebrow: "Schedule",
+      heading: "Game schedules",
+      intro:   "Schedules are kept on MaxPreps by the coaching staff. Both links open in a new tab.",
+      buttons: [
+        { label: "Varsity Schedule",
+          href:  "https://www.maxpreps.com/ga/douglasville/chapel-hill-panthers/baseball/schedule/" },
+        { label: "Junior Varsity Schedule",
+          href:  "https://www.maxpreps.com/ga/douglasville/chapel-hill-panthers/baseball/jv/schedule/" },
+      ],
     },
 
     // Page-only detail, keyed to seasonStrip labels. The DATE itself is never
@@ -1246,8 +1267,8 @@ const SITE = {
   ---------------------------------------------------------------------------*/
   revision: {
     show: true,
-    rev:  "v1.3",
-    date: "July 18, 2026",
+    rev:  "v2.0",
+    date: "July 27, 2026",
     note: "Homepage draft",
   },
 

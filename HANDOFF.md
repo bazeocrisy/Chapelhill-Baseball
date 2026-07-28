@@ -3,7 +3,74 @@
 End of session 4. Written for whoever picks this up next, including a future me
 with no memory of any of it.
 
-**Current build: v1.1 · July 17, 2026 · home (11) · parents (7) · physical-forms (7) · contact (5) · sponsors (10)**
+**Current build: v2.0 · July 27, 2026 · home (2) · parents (2) · physical-forms (7) · contact (5) · sponsors (10) · booster-club (5)**
+
+---
+
+## v2.0 — Phase 1 simplification (July 27, 2026)
+
+The Booster Club asked for a much smaller site they can actually maintain, with
+sections added back as the season approaches. This was a subtraction pass, not a
+redesign: branding, colors, typography, and the responsive system are unchanged.
+
+**Homepage is now two sections: the hero, and a row of sponsor logos.**
+
+Removed from the homepage — Parent Hub, 2026 Season / Where We Stand, Our
+Sponsors, Why Sponsor, Latest News / Around the Program / All Announcements,
+From the Dugout, Volunteer Spotlight, Lend a Hand, plus the hero paragraph,
+both hero buttons, the deadline alert, and the hero sponsor panel.
+
+Removed site-wide — "Baseball Booster Club" from the header, Physical Forms and
+Booster Club from the nav, and the footer's Pages / Official school links /
+school address columns and disclaimer paragraph.
+
+Added — a Schedule section on the Parents page with Varsity and JV buttons
+linking to MaxPreps in a new tab.
+
+**Where things went.** Thirteen homepage builders were deleted from
+`js/main.js`, not hidden, and parked in `js/_archive/removed-sections-v1.js`
+(not loaded by anything). 248 orphaned CSS selectors were removed from
+`css/style.css`, which dropped from 1,658 to about 1,320 lines. Content in
+`data/content.js` was left intact — the client is supplying replacement copy,
+and re-adding a section shouldn't mean rewriting its content.
+
+**Two open items, both flagged to the client.**
+
+1. `physical-forms.html` and `booster-club.html` are now unreachable. Removing
+   them from the nav *and* dropping the footer Pages list leaves both pages
+   live with zero inbound links. Not broken, but the GHSA physical form is the
+   most useful thing on the site for a parent in August. One text link on the
+   Parents page fixes it.
+2. The brief contradicted itself on the Parents page — "keep the Parent page"
+   in one place, "only the two MaxPreps buttons" in the final checklist. The
+   stricter reading was used. The five removed sections are commented out in
+   `PAGES`, not deleted; their builders, content, and CSS are all intact, so
+   uncommenting one line restores any of them exactly as it was.
+
+**Verified.** Rendered in Chromium at 1920 / 1440 / 1024 / 768 / 390 / 320.
+Homepage has zero horizontal overflow at every width, including 320 — the
+overflow noted in the v1.4 handoff is gone from the homepage. Parents page has
+2px at 320 only; the same `.wrap` behaviour still shows on sponsors (136px),
+contact (100px), physical-forms (5px) and booster-club (21px) at 320 and is
+unchanged from v1.4. No JS console errors, no empty containers, no broken
+internal links.
+
+---
+
+## Adding a section back later
+
+The homepage renderer walks one array. In `js/main.js`, near the bottom:
+
+```js
+home: [
+  buildHero,
+  buildSponsorRow,
+],
+```
+
+Write a builder above that table, add its name to this list in the position you
+want, and it renders. Nothing else has to change — that's what makes news,
+schedules, galleries, and announcements cheap to add in Phase 2.
 
 ---
 

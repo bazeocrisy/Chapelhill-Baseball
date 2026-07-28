@@ -99,20 +99,26 @@
   function buildHeader() {
     var id = SITE.identity;
     var here = document.body.getAttribute("data-page") || "home";
+    // NAV — v2.0 trimmed to four items at the Booster Club's request.
+    // Physical Forms and Booster Club were removed from the nav. Both pages
+    // still exist in the repo; add a line back here to re-link either one.
+    //   { label: "Physical Forms", href: "physical-forms.html", page: "physical-forms" },
+    //   { label: "Booster Club",   href: "booster-club.html",   page: "booster-club" },
     var nav = [
       { label: "Home", href: "index.html", page: "home" },
       { label: "Parents", href: "parents.html", page: "parents" },
-      { label: "Physical Forms", href: "physical-forms.html", page: "physical-forms" },
-      { label: "Booster Club", href: "booster-club.html", page: "booster-club" },
       { label: "Sponsors", href: "sponsors.html", page: "sponsors" },
       { label: "Contact", href: "contact.html", page: "contact" },
     ];
     return el(
       '<header class="header">' +
         '<div class="wrap header__inner">' +
+          // Brand is the program name only. The "Baseball Booster Club" line
+          // was removed in v2.0; SITE.identity.orgName still drives the
+          // copyright line in the footer.
           '<a class="brand" href="index.html">' + brandMark() +
             '<span class="brand__text"><strong>' + esc(id.programName) + "</strong>" +
-            "<span>" + esc(id.orgName) + "</span></span></a>" +
+            "</span></a>" +
           '<button class="nav__toggle" aria-expanded="false" aria-controls="site-nav" aria-label="Open menu">' +
             '<span class="nav__bars" aria-hidden="true"></span></button>' +
           '<nav class="nav" id="site-nav" aria-label="Main"><ul class="nav__list">' +
@@ -126,487 +132,64 @@
     );
   }
 
-  // Right-side panel: real sponsor impact, not decorative field art. Reuses
-  // SITE.sponsors.impact so there's no new content field to maintain.
-  function heroSponsorPanel() {
-    var imp = SITE.sponsors && SITE.sponsors.impact;
-    if (!imp) { return ""; }
-    return (
-      '<div class="hero__panel">' +
-        '<span class="hero__panel-eyebrow">Sponsor Impact</span>' +
-        '<h3>' + esc(imp.heading) + '</h3>' +
-        '<ul class="hero__panel-list">' +
-          imp.items.map(function (i) {
-            return '<li>' + icon("check", "icon icon--tick") + '<span>' + esc(i.thing) + '</span></li>';
-          }).join("") +
-        '</ul>' +
-        '<a class="hero__panel-cta" href="#sponsors">See Our Sponsors</a>' +
-      '</div>'
-    );
-  }
+  /* HOMEPAGE HERO — v2.0
+     ----------------------------------------------------------------------
+     Photo, eyebrow, headline, tagline. Nothing else. The paragraph, the two
+     buttons, the deadline banner, and the sponsor-impact panel were all
+     removed at the Booster Club's request.
 
+     UPDATING THE TEXT: all three lines come from SITE.hero in
+     data/content.js — eyebrow, headline, tagline. Change them there and
+     refresh. Any of the three can be set to "" and its element disappears
+     rather than leaving an empty gap, so new messaging can be dropped in
+     without touching this file. */
   function buildHero() {
     var h = SITE.hero;
-    var s = el(
+    return el(
       '<section class="hero">' +
         '<div class="hero__media" role="img" aria-label="' + esc(h.imageAlt) + '"></div>' +
         '<div class="hero__scrim" aria-hidden="true"></div>' +
-        '<div class="wrap hero__inner hero__inner--split">' +
+        '<div class="wrap hero__inner">' +
           '<div class="hero__content">' +
-            '<p class="hero__eyebrow">' + esc(h.eyebrow) + "</p>" +
-            "<h1>" + esc(h.headline) + "</h1>" +
-            '<p class="hero__tagline">' + esc(h.tagline) + "</p>" +
-            '<p class="hero__intro">' + esc(h.intro) + "</p>" +
-            '<div class="hero__actions">' +
-              '<a class="btn btn--primary btn--lg" href="' + esc(h.primaryCta.href) + '">' +
-                esc(h.primaryCta.label) + "</a>" +
-              '<a class="btn btn--ghost btn--lg" href="' + esc(h.secondaryCta.href) + '">' +
-                esc(h.secondaryCta.label) + "</a>" +
-            "</div>" +
-            // The urgent item lives IN the hero — a parent shouldn't have to
-            // scroll to learn a deadline is coming.
-            (h.alert && h.alert.show
-              ? '<p class="hero__alert"><span class="hero__alert-label">' +
-                esc(h.alert.label) + "</span>" + esc(h.alert.text) + "</p>"
-              : "") +
+            (h.eyebrow ? '<p class="hero__eyebrow">' + esc(h.eyebrow) + "</p>" : "") +
+            (h.headline ? "<h1>" + esc(h.headline) + "</h1>" : "") +
+            (h.tagline ? '<p class="hero__tagline">' + esc(h.tagline) + "</p>" : "") +
           "</div>" +
-          heroSponsorPanel() +
         "</div>" +
         (h.imageNote ? '<span class="hero__imgnote">' + esc(h.imageNote) + "</span>" : "") +
       "</section>"
     );
     // Hero image is owned entirely by CSS (.hero__media) so it is full-bleed
     // and independent of JS. Nothing to set here.
-    return s;
   }
 
-  function buildStrip() {
-    var items = SITE.seasonStrip || [];
-    if (!items.length) { return null; }
-    return el(
-      '<section class="strip" aria-label="Season at a glance"><div class="wrap strip__inner">' +
-        items.map(function (i) {
-          return '<div class="strip__cell">' +
-                   '<div class="strip__label">' + esc(i.label) + "</div>" +
-                   '<div class="strip__value">' + esc(i.value) + "</div>" +
-                   (i.detail ? '<div class="strip__detail">' + esc(i.detail) + "</div>" : "") +
-                 "</div>";
-        }).join("") +
-      "</div></section>"
-    );
-  }
+  /* SPONSOR LOGO ROW — v2.0
+     ----------------------------------------------------------------------
+     One horizontal row of logos, sitting just above the footer. No heading,
+     no tagline, no links, no marketing copy — that was the whole point of
+     the request.
 
-  // Sponsor logo strip under the hero. Only the top two tiers appear —
-  // cramming every sponsor in shrinks them all to illegibility.
+     WHICH LOGOS APPEAR: the first STRIP_TIERS tiers of SITE.sponsors.levels.
+     At 2 that's Premier + Gold, six logos, which fits one row comfortably.
+     Raise it to 3 to include Community Partners — but twelve logos in a
+     single row get small fast. The row scrolls sideways on narrow screens
+     rather than wrapping, so it stays one row at every width. */
   var STRIP_TIERS = 2;
-  var STRIP_ACCENTS = ["purple", "accent", "purple-lift"];
-  function buildSponsorStrip() {
+  function buildSponsorRow() {
     var all = [];
-    SITE.sponsors.levels.slice(0, STRIP_TIERS).forEach(function (lvl) {
+    (SITE.sponsors.levels || []).slice(0, STRIP_TIERS).forEach(function (lvl) {
       lvl.items.forEach(function (it) { if (it.logo) { all.push(it); } });
     });
     if (!all.length) { return null; }
-    var tagline = (SITE.sponsorStrip && SITE.sponsorStrip.tagline) || "";
     return el(
-      '<section class="sponsorstrip" aria-label="Our sponsors">' +
+      '<section class="sponsorrow" aria-label="Sponsors">' +
         '<div class="wrap">' +
-          '<div class="sponsorstrip__head">' +
-            '<div>' +
-              '<span class="sponsorstrip__label">Our sponsors</span>' +
-              (tagline ? '<h2 class="sponsorstrip__tagline">' + esc(tagline) + '</h2>' : '') +
-            '</div>' +
-            '<a class="sponsorstrip__all" href="#sponsors">See All Sponsors</a>' +
-          '</div>' +
-          '<div class="sponsorstrip__cardgrid">' +
-            all.map(function (it, n) {
-              return '<a class="sponsorstrip__card sponsorstrip__card--' + STRIP_ACCENTS[n % 3] + '" href="#sponsors" title="' + esc(it.name) + '">' +
-                     '<img src="' + esc(it.logo) + '" alt="' + esc(it.name) + '"></a>';
+          '<div class="sponsorrow__track">' +
+            all.map(function (it) {
+              return '<div class="sponsorrow__item">' +
+                     '<img src="' + esc(it.logo) + '" alt="' + esc(it.name) + '" loading="lazy"></div>';
             }).join("") +
           "</div>" +
-        "</div>" +
-      "</section>"
-    );
-  }
-
-  // PARENT HUB — season dates + quick links unified into one at-a-glance card,
-  // so parents get real-time information from a single place instead of
-  // hunting across the page. Reuses SITE.seasonStrip and SITE.quickLinks.
-  function buildParentHub() {
-    var dates = SITE.seasonStrip || [];
-    var q = SITE.quickLinks;
-    return el(
-      '<section class="section section--wash">' +
-        '<div class="wrap">' +
-          '<div class="parenthub">' +
-            '<div class="parenthub__head">' +
-              '<div>' +
-                '<span class="eyebrow">Parent Hub</span>' +
-                '<h2>Everything you need, in one place</h2>' +
-              '</div>' +
-              '<span class="parenthub__badge"><span class="parenthub__dot"></span>Updated ' + esc(SITE.revision ? SITE.revision.date : "") + '</span>' +
-            '</div>' +
-            '<div class="parenthub__dates">' +
-              dates.map(function (i) {
-                return '<div class="parenthub__date">' +
-                         '<div class="parenthub__date-label">' + esc(i.label) + '</div>' +
-                         '<div class="parenthub__date-value">' + esc(i.value) + '</div>' +
-                         (i.detail ? '<div class="parenthub__date-detail">' + esc(i.detail) + '</div>' : '') +
-                       '</div>';
-              }).join("") +
-            '</div>' +
-            '<div class="grid grid--3">' +
-              q.items.map(function (i) {
-                return '<a class="card" href="' + esc(i.href) + '"' + extAttrs(i) + '>' +
-                         '<span class="card__icon">' + icon(i.icon) + '</span>' +
-                         '<h3>' + esc(i.title) + extTag(i) + '</h3>' +
-                         '<p>' + esc(i.body) + '</p>' +
-                       '</a>';
-              }).join("") +
-            '</div>' +
-          '</div>' +
-        '</div>' +
-      '</section>'
-    );
-  }
-
-  function buildSnapshot() {
-    var s = SITE.snapshot;
-    if (!s || !s.show) { return null; }
-    return el(
-      '<section class="snapshot" aria-label="Program snapshot">' +
-        '<div class="wrap">' +
-          '<div class="snapshot__head">' +
-            '<span class="eyebrow">' + esc(s.eyebrow) + "</span>" +
-            "<h2>" + esc(s.heading) + "</h2>" +
-          "</div>" +
-          '<div class="snapshot__grid">' +
-            s.items.map(function (i) {
-              return '<div class="snap">' +
-                       '<span class="snap__value">' + esc(i.value) + "</span>" +
-                       '<span class="snap__label">' + esc(i.label) + "</span>" +
-                       '<span class="snap__detail">' + esc(i.detail) + "</span>" +
-                     "</div>";
-            }).join("") +
-          "</div>" +
-        "</div>" +
-      "</section>"
-    );
-  }
-
-  function buildValues() {
-    var v = SITE.values;
-    if (!v) { return null; }
-    return el(
-      '<section class="section values" id="values">' +
-        '<div class="wrap">' +
-          '<div class="section__head section__head--center">' +
-            '<span class="eyebrow">' + esc(v.eyebrow) + "</span>" +
-            "<h2>" + esc(v.heading) + "</h2><p>" + esc(v.intro) + "</p>" +
-          "</div>" +
-          '<ol class="valuelist">' +
-            v.items.map(function (i, n) {
-              return '<li class="value">' +
-                       '<span class="value__num">' + ("0" + (n + 1)) + "</span>" +
-                       '<span class="value__body"><strong>' + esc(i.name) + "</strong>" +
-                       "<span>" + esc(i.body) + "</span></span>" +
-                     "</li>";
-            }).join("") +
-          "</ol>" +
-        "</div>" +
-      "</section>"
-    );
-  }
-
-  function buildDevelopment() {
-    var d = SITE.development;
-    if (!d) { return null; }
-    return el(
-      '<section class="section section--wash devwrap" id="development">' +
-        '<div class="wrap devgrid">' +
-          "<div>" +
-            '<span class="eyebrow">' + esc(d.eyebrow) + "</span>" +
-            "<h2>" + esc(d.heading) + "</h2>" +
-            '<p class="devgrid__intro">' + esc(d.intro) + "</p>" +
-            '<div class="devpoints">' +
-              d.points.map(function (pt) {
-                return '<div class="devpoint">' + icon("grow", "icon icon--dev") +
-                         "<div><strong>" + esc(pt.head) + "</strong>" +
-                         "<p>" + esc(pt.body) + "</p></div>" +
-                       "</div>";
-              }).join("") +
-            "</div>" +
-          "</div>" +
-          '<aside class="alumni">' +
-            '<span class="alumni__icon">' + icon("trophy") + "</span>" +
-            "<h3>" + esc(d.alumni.heading) + "</h3>" +
-            '<ul class="alumni__list">' +
-              d.alumni.items.map(function (a) {
-                return "<li><strong>" + esc(a.name) + "</strong><span>" +
-                       esc(a.detail) + "</span></li>";
-              }).join("") +
-            "</ul>" +
-          "</aside>" +
-        "</div>" +
-      "</section>"
-    );
-  }
-
-  function buildVolunteerCta() {
-    var v = SITE.volunteerCta;
-    if (!v) { return null; }
-    return el(
-      '<section class="volcta" id="volunteer">' +
-        '<div class="wrap volcta__inner">' +
-          '<div class="volcta__body">' +
-            '<span class="eyebrow">' + esc(v.eyebrow) + "</span>" +
-            "<h2>" + esc(v.heading) + "</h2>" +
-            "<p>" + esc(v.body) + "</p>" +
-            '<ul class="volcta__roles">' +
-              v.roles.map(function (r) { return "<li>" + esc(r) + "</li>"; }).join("") +
-            "</ul>" +
-          "</div>" +
-          '<a class="btn btn--primary btn--lg" href="' + esc(v.cta.href) + '">' +
-            esc(v.cta.label) + "</a>" +
-        "</div>" +
-      "</section>"
-    );
-  }
-
-  function buildQuickLinks() {
-    var q = SITE.quickLinks;
-    return el(
-      '<section class="section" id="start">' +
-        '<div class="wrap">' +
-          '<div class="section__head section__head--center">' +
-            '<span class="eyebrow">' + esc(q.eyebrow) + "</span>" +
-            "<h2>" + esc(q.heading) + "</h2>" +
-            "<p>" + esc(q.intro) + "</p>" +
-          "</div>" +
-          '<div class="grid grid--3">' +
-            q.items.map(function (i) {
-              return '<a class="card" href="' + esc(i.href) + '"' + extAttrs(i) + ">" +
-                       '<span class="card__icon">' + icon(i.icon) + "</span>" +
-                       "<h3>" + esc(i.title) + extTag(i) + "</h3>" +
-                       "<p>" + esc(i.body) + "</p>" +
-                       '<span class="card__more">' + (i.external ? "Official site" : "Go") + "</span>" +
-                     "</a>";
-            }).join("") +
-          "</div>" +
-        "</div>" +
-      "</section>"
-    );
-  }
-
-  function buildNews() {
-    var a = SITE.announcements;
-    if (!a || !a.items || !a.items.length) { return null; }
-    return el(
-      '<section class="section section--wash" id="news">' +
-        '<div class="wrap">' +
-          '<div class="section__head section__head--center">' +
-            '<span class="eyebrow">' + esc(a.eyebrow) + "</span>" +
-            "<h2>" + esc(a.heading) + "</h2><p>" + esc(a.intro) + "</p>" +
-          "</div>" +
-          '<div class="notices notices--grid">' +
-            a.items.map(function (i) {
-              return '<article class="notice' + (i.pin ? " notice--pin" : "") + '">' +
-                       '<div class="notice__meta">' +
-                         '<span class="notice__tag">' + esc(i.tag) + "</span>" +
-                         '<time class="notice__date">' + esc(i.date) + "</time>" +
-                       "</div>" +
-                       "<h3>" + esc(i.title) + "</h3>" +
-                       "<p>" + esc(i.body) + "</p>" +
-                     "</article>";
-            }).join("") +
-          "</div>" +
-          (a.cta ? '<p class="newscol__cta"><a class="btn btn--outline" href="' +
-                   esc(a.cta.href) + '">' + esc(a.cta.label) + "</a></p>" : "") +
-        "</div>" +
-      "</section>"
-    );
-  }
-
-  function buildCoachWelcome() {
-    var c = SITE.coachWelcome;
-    if (!c || !c.show) { return null; }   // off until the coach supplies words
-    return el(
-      '<section class="section coachwrap">' +
-        '<div class="wrap">' +
-          '<figure class="coach">' +
-            '<span class="coach__eyebrow eyebrow">' + esc(c.eyebrow) + "</span>" +
-            "<h2>" + esc(c.heading) + "</h2>" +
-            "<blockquote><p>" + esc(c.quote) + "</p></blockquote>" +
-            '<figcaption class="coach__by"><strong>' + esc(c.name) + "</strong>" +
-              "<span>" + esc(c.role) + "</span></figcaption>" +
-          "</figure>" +
-        "</div>" +
-      "</section>"
-    );
-  }
-
-  /* ---- SPONSORS — the section the Booster President asked to lead ------- */
-  function buildSponsors() {
-    var s = SITE.sponsors;
-    var sizeClass = ["tier--lg", "tier--md", "tier--sm"];
-
-    var tiers = s.levels.map(function (lvl, idx) {
-      var slots = lvl.items.map(function (it) {
-        if (!it.name && !it.logo) {
-          return '<div class="sponsor sponsor--empty"><span>Sponsor slot</span></div>';
-        }
-        var inner = it.logo
-          ? '<img src="' + esc(it.logo) + '" alt="' + esc(it.name) + '">'
-          : '<span class="sponsor__name">' + esc(it.name) + "</span>";
-        // Premier sponsors get a line of their own and a link out — the
-        // difference between being listed and being recognized.
-        var note = it.note ? '<span class="sponsor__note">' + esc(it.note) + "</span>" : "";
-        var body = '<span class="sponsor__mark">' + inner + "</span>" + note;
-        return it.url
-          ? '<a class="sponsor sponsor--link" href="' + esc(it.url) + '">' + body + "</a>"
-          : '<div class="sponsor">' + body + "</div>";
-      }).join("");
-
-      return '<div class="tier ' + (sizeClass[idx] || "tier--sm") + '">' +
-               '<div class="tier__head">' +
-                 "<h3>" + esc(lvl.name) + "</h3>" +
-                 '<p class="tier__blurb">' + esc(lvl.blurb) + "</p>" +
-               "</div>" +
-               '<div class="sponsor-grid">' + slots + "</div>" +
-             "</div>";
-    }).join("");
-
-    return el(
-      '<section class="section sponsors" id="sponsors">' +
-        '<div class="wrap">' +
-          '<div class="section__head section__head--center">' +
-            '<span class="eyebrow">' + esc(s.eyebrow) + "</span>" +
-            "<h2>" + esc(s.heading) + "</h2>" +
-          "</div>" +
-          '<p class="sponsors__thanks">' + esc(s.thanks) + "</p>" +
-          (s.impact ? '<div class="impact">' +
-            '<h3 class="impact__head">' + esc(s.impact.heading) + "</h3>" +
-            '<ul class="impact__list">' +
-              s.impact.items.map(function (i) {
-                return '<li class="impact__item">' + icon("check", "icon icon--tick") +
-                       '<span><strong>' + esc(i.thing) + "</strong>" +
-                       '<em>' + esc(i.by) + "</em></span></li>";
-              }).join("") +
-            "</ul>" + sampleNote(s.impact.note) + "</div>" : "") +
-          tiers +
-          '<div class="sponsors__foot">' +
-            '<a class="btn btn--primary btn--lg" href="' + esc(SITE.sponsorValue.cta.href) + '">' +
-              esc(SITE.sponsorValue.cta.label) + "</a>" +
-            '<a class="btn btn--outline" href="' + esc(SITE.sponsorValue.altCta.href) + '">' +
-              esc(SITE.sponsorValue.altCta.label) + "</a>" +
-          "</div>" +
-          sampleNote(s.note) +
-        "</div>" +
-      "</section>"
-    );
-  }
-
-  function buildSponsorValue() {
-    var v = SITE.sponsorValue;
-    return el(
-      '<section class="section section--purple" id="sponsor-value">' +
-        '<div class="wrap sponsorvalue">' +
-          '<div class="sponsorvalue__lede">' +
-            '<span class="eyebrow">' + esc(v.eyebrow) + "</span>" +
-            "<h2>" + esc(v.heading) + "</h2>" +
-            "<p>" + esc(v.intro) + "</p>" +
-            '<ul class="ticks">' +
-              v.points.map(function (p) {
-                return "<li>" + icon("check", "icon icon--tick") + "<span>" + esc(p) + "</span></li>";
-              }).join("") +
-            "</ul>" +
-            '<p class="sponsorvalue__cta">' +
-              '<a class="btn btn--primary btn--lg" href="' + esc(v.cta.href) + '">' +
-                esc(v.cta.label) + "</a></p>" +
-          "</div>" +
-          '<div class="sponsorvalue__stats">' +
-            v.stats.map(function (st) {
-              return '<div class="stat"><span class="stat__figure">' + esc(st.figure) +
-                     '</span><span class="stat__label">' + esc(st.label) + "</span></div>";
-            }).join("") +
-            sampleNote(v.note) +
-          "</div>" +
-        "</div>" +
-      "</section>"
-    );
-  }
-
-  function buildSpotlight() {
-    var sp = SITE.spotlight;
-    if (!sp) { return null; }
-    return el(
-      '<section class="section section--wash spotwrap">' +
-        '<div class="wrap">' +
-          '<figure class="spot">' +
-            '<span class="spot__icon">' + icon("star") + "</span>" +
-            '<span class="eyebrow">' + esc(sp.eyebrow) + "</span>" +
-            "<h2>" + esc(sp.heading) + "</h2>" +
-            "<p>" + esc(sp.body) + "</p>" +
-          "</figure>" +
-        "</div>" +
-      "</section>"
-    );
-  }
-
-  function buildBooster() {
-    var b = SITE.boosterClub, sp = SITE.spotlight;
-    return el(
-      '<section class="section section--wash" id="booster">' +
-        '<div class="wrap boostergrid">' +
-          "<div>" +
-            '<span class="eyebrow">' + esc(b.eyebrow) + "</span>" +
-            "<h2>" + esc(b.heading) + "</h2>" +
-            '<p class="boostergrid__body">' + esc(b.body) + "</p>" +
-            '<ul class="ticks ticks--dark">' +
-              b.points.map(function (p) {
-                return "<li>" + icon("check", "icon icon--tick") + "<span>" + esc(p) + "</span></li>";
-              }).join("") +
-            "</ul>" +
-            '<p style="margin-top:1.75rem"><a class="btn btn--outline" href="' +
-              esc(b.cta.href) + '">' + esc(b.cta.label) + "</a></p>" +
-          "</div>" +
-          (sp ? '<aside class="spotlight">' +
-                  '<span class="spotlight__icon">' + icon("star") + "</span>" +
-                  '<span class="eyebrow">' + esc(sp.eyebrow) + "</span>" +
-                  "<h3>" + esc(sp.heading) + "</h3>" +
-                  "<p>" + esc(sp.body) + "</p>" +
-                  '<a class="spotlight__cta" href="' + esc(sp.cta.href) + '">' +
-                    esc(sp.cta.label) + "</a>" +
-                  sampleNote(sp.note) +
-                "</aside>" : "") +
-        "</div>" +
-      "</section>"
-    );
-  }
-
-  function buildContact() {
-    var c = SITE.contact;
-    return el(
-      '<section class="section" id="contact">' +
-        '<div class="wrap">' +
-          '<div class="section__head section__head--center">' +
-            '<span class="eyebrow">' + esc(c.eyebrow) + "</span>" +
-            "<h2>" + esc(c.heading) + "</h2><p>" + esc(c.intro) + "</p>" +
-          "</div>" +
-          '<div class="grid grid--3">' +
-            c.items.map(function (i) {
-              var line = i.email
-                ? '<a class="contact-card__email" href="mailto:' + esc(i.email) + '">' +
-                    icon("mail") + esc(i.email) + "</a>"
-                : '<span class="contact-card__pending">' + icon("mail") +
-                    "Contact details coming soon</span>";
-              return '<div class="contact-card">' +
-                       "<h3>" + esc(i.role) + "</h3>" +
-                       '<p class="contact-card__desc">' + esc(i.desc) + "</p>" +
-                       line +
-                     "</div>";
-            }).join("") +
-          "</div>" +
-          sampleNote(c.note) +
         "</div>" +
       "</section>"
     );
@@ -646,50 +229,31 @@
     return buildOfficial(SITE.contactPage.school);
   }
 
+  /* FOOTER — v2.0
+     ----------------------------------------------------------------------
+     Program name, copyright, revision stamp. That's it. The four-column
+     grid (Pages / Official school links / school address block) and the
+     "please visit the official school website" disclaimer paragraph were
+     all removed at the Booster Club's request.
+
+     This footer is shared by every page, so the change applies site-wide.
+     SITE.footerBlurb and SITE.disclaimer are still in data/content.js and
+     are simply no longer rendered anywhere. */
   function buildFooter() {
-    var o = SITE.official, id = SITE.identity;
-    var pages = [
-      { label: "Home", href: "index.html" },
-      { label: "Parents", href: "parents.html" },
-      { label: "Physical Forms", href: "physical-forms.html" },
-      { label: "Booster Club", href: "booster-club.html" },
-      { label: "Sponsors", href: "sponsors.html" },
-      { label: "Contact", href: "contact.html" },
-    ];
+    var id = SITE.identity;
     return el(
       '<footer class="footer"><div class="wrap">' +
-        '<div class="footer__grid">' +
-          '<div class="footer__brand">' + brandMark() +
-            "<h4>" + esc(id.programName) + "</h4>" +
-            "<p>" + esc(SITE.footerBlurb || "Parents supporting Chapel Hill Panther baseball.") + "</p></div>" +
-          "<div><h4>Pages</h4><ul>" +
-            pages.map(function (p) {
-              return '<li><a href="' + esc(p.href) + '">' + esc(p.label) + "</a></li>";
-            }).join("") +
-          "</ul></div>" +
-          "<div><h4>Official school links</h4><ul>" +
-            o.links.slice(0, 5).map(function (l) {
-              return '<li><a href="' + esc(l.href) + '" target="_blank" rel="noopener noreferrer">' +
-                     esc(l.label) + "</a></li>";
-            }).join("") +
-          "</ul></div>" +
-          "<div><h4>" + esc(o.school.name) + "</h4><ul>" +
-            "<li>" + esc(o.school.address) + "</li>" +
-            "<li>" + esc(o.school.city) + "</li>" +
-            '<li><a href="' + esc(o.school.phoneHref) + '">' + esc(o.school.phone) + "</a></li>" +
-          "</ul></div>" +
-        "</div>" +
-        '<div class="footer__disclaimer">' + esc(SITE.disclaimer).replace(
-            "official Chapel Hill High School website",
-            '<a href="' + esc(o.schoolSite) + '" target="_blank" rel="noopener noreferrer">official Chapel Hill High School website</a>'
-          ) + "</div>" +
         '<div class="footer__base">' +
-          "<p>&copy; " + new Date().getFullYear() + " " + esc(id.orgName) + "." +
-            (SITE.draftNotice ? " " + esc(SITE.draftNotice) : "") + "</p>" +
-          (SITE.revision && SITE.revision.show
-            ? '<p class="footer__rev">' + esc(SITE.revision.note) + " " +
-              esc(SITE.revision.rev) + " · " + esc(SITE.revision.date) + "</p>"
-            : "") +
+          '<div class="footer__brand">' + brandMark() +
+            "<span>" + esc(id.programName) + "</span></div>" +
+          '<div class="footer__legal">' +
+            "<p>&copy; " + new Date().getFullYear() + " " + esc(id.orgName) + "." +
+              (SITE.draftNotice ? " " + esc(SITE.draftNotice) : "") + "</p>" +
+            (SITE.revision && SITE.revision.show
+              ? '<p class="footer__rev">' + esc(SITE.revision.note) + " " +
+                esc(SITE.revision.rev) + " · " + esc(SITE.revision.date) + "</p>"
+              : "") +
+          "</div>" +
         "</div>" +
       "</div></footer>"
     );
@@ -1334,6 +898,9 @@
      PARENTS PAGE BUILDERS
      ====================================================================== */
 
+  /* Each line renders only if data/content.js supplies it, so the intro and
+     the two buttons can come back later by adding `intro`, `primaryCta`, and
+     `secondaryCta` to SITE.parentsPage.hero — no change needed here. */
   function buildParentsHero() {
     var h = SITE.parentsPage.hero;
     return el(
@@ -1341,15 +908,51 @@
         '<div class="hero__scrim" aria-hidden="true"></div>' +
         '<div class="wrap hero__inner">' +
           '<div class="hero__content">' +
-            '<p class="hero__eyebrow">' + esc(h.eyebrow) + "</p>" +
-            "<h1>" + esc(h.headline) + "</h1>" +
-            '<p class="hero__intro">' + esc(h.intro) + "</p>" +
-            '<div class="hero__actions">' +
-              '<a class="btn btn--primary btn--lg" href="' + esc(h.primaryCta.href) + '">' +
-                esc(h.primaryCta.label) + "</a>" +
-              '<a class="btn btn--ghost btn--lg" href="' + esc(h.secondaryCta.href) + '">' +
-                esc(h.secondaryCta.label) + "</a>" +
-            "</div>" +
+            (h.eyebrow ? '<p class="hero__eyebrow">' + esc(h.eyebrow) + "</p>" : "") +
+            (h.headline ? "<h1>" + esc(h.headline) + "</h1>" : "") +
+            (h.intro ? '<p class="hero__intro">' + esc(h.intro) + "</p>" : "") +
+            (h.primaryCta || h.secondaryCta
+              ? '<div class="hero__actions">' +
+                  (h.primaryCta
+                    ? '<a class="btn btn--primary btn--lg" href="' + esc(h.primaryCta.href) + '">' +
+                      esc(h.primaryCta.label) + "</a>" : "") +
+                  (h.secondaryCta
+                    ? '<a class="btn btn--ghost btn--lg" href="' + esc(h.secondaryCta.href) + '">' +
+                      esc(h.secondaryCta.label) + "</a>" : "") +
+                "</div>"
+              : "") +
+          "</div>" +
+        "</div>" +
+      "</section>"
+    );
+  }
+
+  /* SCHEDULE — v2.0
+     ----------------------------------------------------------------------
+     Two buttons, both opening MaxPreps in a new tab. The links are the
+     season-agnostic MaxPreps URLs, so they roll forward on their own each
+     spring — there is nothing here to update between seasons.
+
+     Edit the labels or URLs in SITE.parentsPage.schedule. Adding a third
+     button (freshman, summer ball) is a matter of copying a block in
+     data/content.js; this builder loops over whatever is there. */
+  function buildParentsSchedule() {
+    var s = SITE.parentsPage.schedule;
+    if (!s || !s.buttons || !s.buttons.length) { return null; }
+    return el(
+      '<section class="section" id="schedule">' +
+        '<div class="wrap">' +
+          '<div class="section__head section__head--center">' +
+            (s.eyebrow ? '<span class="eyebrow">' + esc(s.eyebrow) + "</span>" : "") +
+            (s.heading ? "<h2>" + esc(s.heading) + "</h2>" : "") +
+            (s.intro ? "<p>" + esc(s.intro) + "</p>" : "") +
+          "</div>" +
+          '<div class="schedulebtns">' +
+            s.buttons.map(function (b) {
+              return '<a class="btn btn--primary btn--lg" href="' + esc(b.href) + '" ' +
+                     'target="_blank" rel="noopener noreferrer">' + esc(b.label) +
+                     '<span class="u-sr"> (opens in a new tab)</span></a>';
+            }).join("") +
           "</div>" +
         "</div>" +
       "</section>"
@@ -1666,47 +1269,22 @@
      ====================================================================== */
   var PAGES = {
 
-    home: [
-      buildHero,          //  1. Identity + the one urgent thing, above the fold
-      buildSponsorStrip,  //  2. Sponsor logos — seen on every visit
-      buildParentHub,     //  3. Season dates + quick links, unified in one place
-      buildSnapshot,      //  4. Where the program stands right now
-      buildSponsors,      //  5. Sponsor recognition, by tier
-      buildSponsorValue,  //  6. Why sponsor — the pitch to businesses
-      buildNews,          //  7. Around the program
-      buildCoachWelcome,  //  8. Welcome
-      buildSpotlight,     //  9. Volunteer spotlight — the story
-      buildVolunteerCta,  // 10. One shift — the ask, right after the story
+    /* HOME — v2.0
+       --------------------------------------------------------------------
+       Deliberately two sections. The Booster Club asked for an informational
+       landing page they can actually maintain, not a brochure.
 
-      // buildStrip and buildQuickLinks still exist above — buildParentHub
-      // now renders both in one unified card. Re-add either line here to
-      // go back to separate sections.
-      //
-      // still lives in content.js, so re-adding a line here restores any of them.
-      //
-      //   buildOfficial — "Everything else" (six official links + address block).
-      //   → parents.html. These are the district's links, not the program's, and
-      //   they belong on the page a parent lands on for paperwork. Nothing is
-      //   lost from the homepage: the footer already carries five of the six
-      //   links, the school name, the address, and the phone.
-      //
-      //   buildBooster — "Built by parents, for parents" prose block.
-      //   → booster-club.html. Values, Development, the Spotlight, and the
-      //   Volunteer CTA said what it said, with more specificity.
-      //
-      //   buildContact — "Who to ask" (three role cards).
-      //   → contact.html. It's what a Contact page is for. Nav, quick-link card,
-      //   and footer all still route there. Cost ~833px on mobile.
-      //
-      //   buildValues — "What Panther baseball stands for" (five values).
-      //   → about/program page. Good content, wrong room: it serves no parent
-      //   task and no sponsor decision, and the five values were invented. They
-      //   should be the coach's own, stated next to his real welcome.
-      //
-      //   buildDevelopment — "Four years, and what comes after" + alumni card.
-      //   → about/program page. Same reasoning. The alumni figures were also
-      //   invented, and invented player outcomes are the riskiest data on the
-      //   page to have in front of an Athletic Director.
+       ADDING A SECTION LATER: write the builder above, then add its name to
+       this list in the position you want it. News, schedules, galleries,
+       announcements, and sponsorship blocks all drop in the same way — the
+       renderer just walks this array in order and appends what it gets, so
+       nothing else has to change.
+
+       Thirteen v1 builders were removed rather than hidden. They're parked
+       in js/_archive/removed-sections-v1.js if any of them is wanted back. */
+    home: [
+      buildHero,       // 1. Photo, program name, classification
+      buildSponsorRow, // 2. One row of sponsor logos, just above the footer
     ],
 
     // Order here is the order a parent needs it: what the form is, then the
@@ -1753,16 +1331,30 @@
       buildSponsorsFinalCta,    // 10. Final CTA
     ],
 
-    // What the homepage quick-link card promises, in the order a parent needs
-    // it: when → what to turn in → what it costs → answers → archive → school.
+    /* PARENTS — v2.0
+       --------------------------------------------------------------------
+       Reduced to the page title and the two MaxPreps schedule buttons.
+
+       !! READ THIS BEFORE THE CLIENT DOES. The brief said two different
+       things: "Keep the Parent page … no additional content is needed at
+       this time," and then, in the final checklist, that the page should
+       contain "only the two MaxPreps schedule buttons." The stricter
+       reading won, because it's easier to put a section back than to
+       explain why one is still there.
+
+       The five removed sections are commented out below, NOT deleted —
+       their builders, their content, and their CSS are all still intact.
+       Uncomment a line and it returns exactly as it was. */
     parents: [
-      buildParentsHero,          // 1. The contract
-      buildParentsDates,         // 2. Dates — reads SITE.seasonStrip, not a copy
-      buildParentsPaperwork,     // 3. What has to be turned in
-      buildParentsFees,          // 4. Fees — pending state until confirmed
-      buildParentsFaq,           // 5. The questions we get every August
-      buildParentsAnnouncements, // 6. #announcements — homepage News links here
-      buildParentsSchool,        // 7. Everything that isn't baseball
+      buildParentsHero,          // 1. Page title
+      buildParentsSchedule,      // 2. Varsity + JV, both to MaxPreps
+
+      // buildParentsDates,         Dates — reads SITE.seasonStrip
+      // buildParentsPaperwork,     What has to be turned in
+      // buildParentsFees,          Fees — pending state until confirmed
+      // buildParentsFaq,           The questions we get every August
+      // buildParentsAnnouncements, #announcements
+      // buildParentsSchool,        Everything that isn't baseball
     ],
 
     // IA: route first, then how to write a message, then answers that save an
